@@ -4,14 +4,35 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Switch;
 
-
+/**
+ *
+ * @authior Nathanial Heard, Joesph Herndon
+ *
+ */
 public class NJNPActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_njnp);
+
+        // Grab UI components
+//        Switch audioToggleBtn = (Switch) findViewById(R.id.audio_toggle_btn);
+//        Switch videoToggleBtn = (Switch) findViewById(R.id.video_toggle_btn);
+//        Switch smsToggleBtn = (Switch) findViewById(R.id.sms_toggle_btn);
+//        Switch emailToggleBtn = (Switch) findViewById(R.id.email_toggle_btn);
+//        Switch dropboxToggleBtn = (Switch) findViewById(R.id.dropbox_toggle_btn);
+//        Switch keepOnDeviceToggleBtn = (Switch) findViewById(R.id.keep_on_device_toggle_btn);
+//
+//        audioToggleBtn.setOnClickListener(onAudioToggle);
+//        videoToggleBtn.setOnClickListener(onVideoToggle);
+//        smsToggleBtn.setOnClickListener(onSMSToggle);
+//        emailToggleBtn.setOnClickListener(onEmailToggle);
+//        dropboxToggleBtn.setOnClickListener(onDropboxToggle);
+//        keepOnDeviceToggleBtn.setOnClickListener(onKeepOnDeviceToggle);
     }
 
 
@@ -36,4 +57,76 @@ public class NJNPActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    View.OnClickListener onAudioToggle = new View.OnClickListener() {
+        public void onClick(View view) {
+            boolean audioOn = ((Switch) view).isChecked();
+
+            if (audioOn) {
+                // Enable vibrate
+            } else {
+                // Disable vibrate
+            }
+        }
+    };
+
+    View.OnClickListener onVideoToggle = new View.OnClickListener() {
+        public void onClick(View view) {
+            boolean videoOn = ((Switch) view).isChecked();
+
+            if (videoOn) {
+                // Enable vibrate
+            } else {
+                // Disable vibrate
+            }
+        }
+    };
+
+    View.OnClickListener onSMSToggle = new View.OnClickListener() {
+        public void onClick(View view) {
+            boolean smsOn = ((Switch) view).isChecked();
+
+            if (smsOn) {
+                // Enable vibrate
+            } else {
+                // Disable vibrate
+            }
+        }
+    };
+
+    View.OnClickListener onEmailToggle = new View.OnClickListener() {
+        public void onClick(View view) {
+            boolean emailOn = ((Switch) view).isChecked();
+
+            if (emailOn) {
+                // Enable vibrate
+            } else {
+                // Disable vibrate
+            }
+        }
+    };
+
+    View.OnClickListener onDropboxToggle = new View.OnClickListener() {
+        public void onClick(View view) {
+            boolean dropboxOn = ((Switch) view).isChecked();
+
+            if (dropboxOn) {
+                // Enable vibrate
+            } else {
+                // Disable vibrate
+            }
+        }
+    };
+
+    View.OnClickListener onKeepOnDeviceToggle = new View.OnClickListener() {
+        public void onClick(View view) {
+            boolean localOn = ((Switch) view).isChecked();
+
+            if (localOn) {
+                // Enable vibrate
+            } else {
+                // Disable vibrate
+            }
+        }
+    };
 }
