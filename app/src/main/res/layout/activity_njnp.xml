@@ -19,7 +19,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.20">
+            android:layout_weight="0.05">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -34,17 +34,171 @@
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/switch1"
+                android:id="@+id/audio_toggle_btn"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="60dp" />
+                android:layout_marginLeft="120dp" />
 
-            <Spinner
-                android:layout_width="70dp"
-                android:layout_height="45dp"
-                android:id="@+id/spinner"
+            <EditText
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/editText"
+                android:background="#ffffffff"
+                android:layout_marginLeft="60dp"
+                android:layout_gravity="center"
+                android:hint="Mins"
+                android:autoText="false" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.05">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Video"
+                android:id="@+id/textView"
+                android:layout_gravity="center_vertical"
+                android:textColor="#fffffa25"
+                android:textSize="30sp" />
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/video_toggle_btn"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="120dp" />
+
+            <EditText
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/editText2"
+                android:background="#ffffffff"
+                android:width="50dp"
+                android:layout_marginLeft="60dp"
+                android:layout_gravity="center_vertical"
+                android:hint="Mins" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Send SMS"
+                android:id="@+id/textView"
+                android:layout_gravity="center_vertical"
+                android:textColor="#fffffa25"
+                android:textSize="30sp" />
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sms_toggle_btn"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="60dp" />
 
         </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.06">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Send Email"
+                android:id="@+id/textView"
+                android:layout_gravity="center_vertical"
+                android:textColor="#fffffa25"
+                android:textSize="30sp" />
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/email_toggle_btn"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="47dp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.04">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="DropBox"
+                android:id="@+id/textView"
+                android:layout_gravity="center_vertical"
+                android:textColor="#fffffa25"
+                android:textSize="30sp" />
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dropbox_toggle_btn"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="83dp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.05">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Keep On Device"
+                android:id="@+id/textView"
+                android:layout_gravity="center_vertical"
+                android:textColor="#fffffa25"
+                android:textSize="30sp" />
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/keep_on_device_toggle_btn"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="60dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.80">
+
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New ToggleButton"
+                android:id="@+id/start_toggle_btn"
+                android:layout_gravity="center"
+                android:layout_marginLeft="140dp" />
+        </LinearLayout>
+
     </LinearLayout>
+
 </RelativeLayout>

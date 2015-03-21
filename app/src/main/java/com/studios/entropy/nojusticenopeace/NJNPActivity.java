@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Switch;
+import android.widget.ToggleButton;
 
 /**
  *
@@ -20,19 +21,21 @@ public class NJNPActivity extends ActionBarActivity {
         setContentView(R.layout.activity_njnp);
 
         // Grab UI components
-//        Switch audioToggleBtn = (Switch) findViewById(R.id.audio_toggle_btn);
-//        Switch videoToggleBtn = (Switch) findViewById(R.id.video_toggle_btn);
-//        Switch smsToggleBtn = (Switch) findViewById(R.id.sms_toggle_btn);
-//        Switch emailToggleBtn = (Switch) findViewById(R.id.email_toggle_btn);
-//        Switch dropboxToggleBtn = (Switch) findViewById(R.id.dropbox_toggle_btn);
-//        Switch keepOnDeviceToggleBtn = (Switch) findViewById(R.id.keep_on_device_toggle_btn);
-//
-//        audioToggleBtn.setOnClickListener(onAudioToggle);
-//        videoToggleBtn.setOnClickListener(onVideoToggle);
-//        smsToggleBtn.setOnClickListener(onSMSToggle);
-//        emailToggleBtn.setOnClickListener(onEmailToggle);
-//        dropboxToggleBtn.setOnClickListener(onDropboxToggle);
-//        keepOnDeviceToggleBtn.setOnClickListener(onKeepOnDeviceToggle);
+        Switch audioToggleBtn = (Switch) findViewById(R.id.audio_toggle_btn);
+        Switch videoToggleBtn = (Switch) findViewById(R.id.video_toggle_btn);
+        Switch smsToggleBtn = (Switch) findViewById(R.id.sms_toggle_btn);
+        Switch emailToggleBtn = (Switch) findViewById(R.id.email_toggle_btn);
+        Switch dropboxToggleBtn = (Switch) findViewById(R.id.dropbox_toggle_btn);
+        Switch keepOnDeviceToggleBtn = (Switch) findViewById(R.id.keep_on_device_toggle_btn);
+        ToggleButton startToggleBtn = (ToggleButton) findViewById(R.id.start_toggle_btn);
+
+        audioToggleBtn.setOnClickListener(onAudioToggle);
+        videoToggleBtn.setOnClickListener(onVideoToggle);
+        smsToggleBtn.setOnClickListener(onSMSToggle);
+        emailToggleBtn.setOnClickListener(onEmailToggle);
+        dropboxToggleBtn.setOnClickListener(onDropboxToggle);
+        keepOnDeviceToggleBtn.setOnClickListener(onKeepOnDeviceToggle);
+        startToggleBtn.setOnClickListener(onStartToggle);
     }
 
 
@@ -123,6 +126,18 @@ public class NJNPActivity extends ActionBarActivity {
             boolean localOn = ((Switch) view).isChecked();
 
             if (localOn) {
+                // Enable vibrate
+            } else {
+                // Disable vibrate
+            }
+        }
+    };
+
+    View.OnClickListener onStartToggle = new View.OnClickListener() {
+        public void onClick(View view) {
+            boolean startOn = ((Switch) view).isChecked();
+
+            if (startOn) {
                 // Enable vibrate
             } else {
                 // Disable vibrate
