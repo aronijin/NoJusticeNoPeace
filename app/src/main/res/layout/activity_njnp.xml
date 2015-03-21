@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -22,33 +22,34 @@
             android:layout_weight="0.05">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Audio"
                 android:id="@+id/textView"
                 android:layout_gravity="center_vertical"
                 android:textColor="#fffffa25"
-                android:textSize="30sp" />
+                android:layout_weight="1" />
 
             <Switch
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/audio_toggle_btn"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="120dp" />
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical" />
 
             <EditText
-                android:layout_width="50dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
                 android:id="@+id/editText"
                 android:background="#ffffffff"
-                android:layout_marginLeft="60dp"
-                android:layout_gravity="center"
                 android:hint="Mins"
-                android:autoText="false" />
+                android:autoText="false"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
+                android:layout_gravity="center_vertical" />
 
         </LinearLayout>
         <LinearLayout
@@ -58,33 +59,34 @@
             android:layout_weight="0.05">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Video"
                 android:id="@+id/textView"
                 android:layout_gravity="center_vertical"
                 android:textColor="#fffffa25"
-                android:textSize="30sp" />
+                android:layout_weight="1" />
 
             <Switch
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/video_toggle_btn"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="120dp" />
+                android:layout_weight="1" />
 
             <EditText
-                android:layout_width="50dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
                 android:id="@+id/editText2"
                 android:background="#ffffffff"
                 android:width="50dp"
-                android:layout_marginLeft="60dp"
                 android:layout_gravity="center_vertical"
-                android:hint="Mins" />
+                android:hint="Mins"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp" />
 
         </LinearLayout>
         <LinearLayout
@@ -93,21 +95,21 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Send SMS"
                 android:id="@+id/textView"
                 android:layout_gravity="center_vertical"
                 android:textColor="#fffffa25"
-                android:textSize="30sp" />
+                android:layout_weight="1" />
 
             <Switch
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/sms_toggle_btn"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="60dp" />
+                android:layout_weight="1" />
 
         </LinearLayout>
         <LinearLayout
@@ -117,21 +119,21 @@
             android:layout_weight="0.06">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Send Email"
                 android:id="@+id/textView"
                 android:layout_gravity="center_vertical"
                 android:textColor="#fffffa25"
-                android:textSize="30sp" />
+                android:layout_weight="1" />
 
             <Switch
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/email_toggle_btn"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="47dp" />
+                android:layout_weight="1" />
 
         </LinearLayout>
         <LinearLayout
@@ -141,21 +143,21 @@
             android:layout_weight="0.04">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="DropBox"
                 android:id="@+id/textView"
                 android:layout_gravity="center_vertical"
                 android:textColor="#fffffa25"
-                android:textSize="30sp" />
+                android:layout_weight="1" />
 
             <Switch
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/dropbox_toggle_btn"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="83dp" />
+                android:layout_weight="1" />
 
         </LinearLayout>
         <LinearLayout
@@ -165,40 +167,48 @@
             android:layout_weight="0.05">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Keep On Device"
                 android:id="@+id/textView"
                 android:layout_gravity="center_vertical"
                 android:textColor="#fffffa25"
-                android:textSize="30sp" />
+                android:layout_weight="1" />
 
             <Switch
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/keep_on_device_toggle_btn"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="60dp" />
+                android:layout_weight="1" />
 
         </LinearLayout>
+
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0.80">
+            android:layout_weight="0.18"></LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_gravity="center">
 
             <ToggleButton
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="New ToggleButton"
+
                 android:id="@+id/start_toggle_btn"
-                android:layout_gravity="center"
-                android:layout_marginLeft="140dp" />
+                android:layout_weight=".4"
+                android:layout_gravity="center" />
         </LinearLayout>
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>
