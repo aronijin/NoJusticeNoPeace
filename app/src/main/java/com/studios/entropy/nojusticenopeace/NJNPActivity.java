@@ -1,5 +1,7 @@
 package com.studios.entropy.nojusticenopeace;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.media.MediaRecorder;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -7,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.ToggleButton;
 
@@ -45,21 +48,21 @@ public class NJNPActivity extends ActionBarActivity {
         NJNPDirectory.mkdirs();
 
         // Grab UI components
-        Switch audioToggleBtn = (Switch) findViewById(R.id.audio_toggle_btn);
-        Switch videoToggleBtn = (Switch) findViewById(R.id.video_toggle_btn);
-        Switch smsToggleBtn = (Switch) findViewById(R.id.sms_toggle_btn);
-        Switch emailToggleBtn = (Switch) findViewById(R.id.email_toggle_btn);
-        Switch dropboxToggleBtn = (Switch) findViewById(R.id.dropbox_toggle_btn);
-        Switch keepOnDeviceToggleBtn = (Switch) findViewById(R.id.keep_on_device_toggle_btn);
-        ToggleButton startToggleBtn = (ToggleButton) findViewById(R.id.start_toggle_btn);
+        Switch audioToggleBtn = (Switch) this.findViewById(R.id.audio_toggle_btn);
+        Switch videoToggleBtn = (Switch) this.findViewById(R.id.video_toggle_btn);
+        Switch smsToggleBtn = (Switch) this.findViewById(R.id.sms_toggle_btn);
+        Switch emailToggleBtn = (Switch) this.findViewById(R.id.email_toggle_btn);
+        Switch dropboxToggleBtn = (Switch) this.findViewById(R.id.dropbox_toggle_btn);
+        Switch keepOnDeviceToggleBtn = (Switch) this.findViewById(R.id.keep_on_device_toggle_btn);
+        ToggleButton startToggleBtn = (ToggleButton) this.findViewById(R.id.start_toggle_btn);
 
-        audioToggleBtn.setOnClickListener(onAudioToggle);
-        videoToggleBtn.setOnClickListener(onVideoToggle);
-        smsToggleBtn.setOnClickListener(onSMSToggle);
-        emailToggleBtn.setOnClickListener(onEmailToggle);
-        dropboxToggleBtn.setOnClickListener(onDropboxToggle);
-        keepOnDeviceToggleBtn.setOnClickListener(onKeepOnDeviceToggle);
-        startToggleBtn.setOnClickListener(onStartToggle);
+        audioToggleBtn.setOnCheckedChangeListener(onAudioToggle);
+        videoToggleBtn.setOnCheckedChangeListener(onVideoToggle);
+        smsToggleBtn.setOnCheckedChangeListener(onSMSToggle);
+        emailToggleBtn.setOnCheckedChangeListener(onEmailToggle);
+        dropboxToggleBtn.setOnCheckedChangeListener(onDropboxToggle);
+        keepOnDeviceToggleBtn.setOnCheckedChangeListener(onKeepOnDeviceToggle);
+        startToggleBtn.setOnCheckedChangeListener(onStartToggle);
     }
 
 
@@ -85,91 +88,52 @@ public class NJNPActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    View.OnClickListener onAudioToggle = new View.OnClickListener() {
-        public void onClick(View view) {
-            boolean audioOn = ((Switch) view).isChecked();
-            audioStatus = audioOn;
-            Log.i(NJNP_TAG, "Audio: " + audioStatus);
-            if (audioOn) {
-                // Enable vibrate
-            } else {
-                // Disable vibrate
-            }
+    CompoundButton.OnCheckedChangeListener onAudioToggle = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            audioStatus = isChecked;
         }
     };
 
-    View.OnClickListener onVideoToggle = new View.OnClickListener() {
-        public void onClick(View view) {
-            boolean videoOn = ((Switch) view).isChecked();
-            videoStatus = videoOn;
-
-            if (videoOn) {
-                // Enable vibrate
-            } else {
-                // Disable vibrate
-            }
+    CompoundButton.OnCheckedChangeListener onVideoToggle = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            videoStatus = isChecked;
         }
     };
 
-    View.OnClickListener onSMSToggle = new View.OnClickListener() {
-        public void onClick(View view) {
-            boolean smsOn = ((Switch) view).isChecked();
-            smsStatus = smsOn;
-
-            if (smsOn) {
-                // Enable vibrate
-            } else {
-                // Disable vibrate
-            }
+    CompoundButton.OnCheckedChangeListener onSMSToggle = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            smsStatus = isChecked;
         }
     };
 
-    View.OnClickListener onEmailToggle = new View.OnClickListener() {
-        public void onClick(View view) {
-            boolean emailOn = ((Switch) view).isChecked();
-            emailStatus = emailOn;
-
-            if (emailOn) {
-                // Enable vibrate
-            } else {
-                // Disable vibrate
-            }
+    CompoundButton.OnCheckedChangeListener onEmailToggle = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            emailStatus = isChecked;
         }
     };
 
-    View.OnClickListener onDropboxToggle = new View.OnClickListener() {
-        public void onClick(View view) {
-            boolean dropboxOn = ((Switch) view).isChecked();
-            dropboxStatus = dropboxOn;
-
-            if (dropboxOn) {
-                // Enable vibrate
-                //TODO implement dropbox login
-            } else {
-                // Disable vibrate
-            }
+    CompoundButton.OnCheckedChangeListener onDropboxToggle = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            dropboxStatus = isChecked;
         }
     };
 
-    View.OnClickListener onKeepOnDeviceToggle = new View.OnClickListener() {
-        public void onClick(View view) {
-            boolean localOn = ((Switch) view).isChecked();
-            localStatus = localOn;
-
-            if (localOn) {
-                // Enable vibrate
-            } else {
-                // Disable vibrate
-            }
+    CompoundButton.OnCheckedChangeListener onKeepOnDeviceToggle = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            localStatus = isChecked;
         }
     };
 
-    View.OnClickListener onStartToggle = new View.OnClickListener() {
-        public void onClick(View view) {
-            boolean startOn = ((ToggleButton) view).isChecked();
-
-            Log.i(NJNP_TAG, "Start: " + startOn);
-            if (startOn) {
+    CompoundButton.OnCheckedChangeListener onStartToggle = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (isChecked) {
                 // Enable vibrate
                 runAudio();
                 runVideo();
@@ -187,6 +151,7 @@ public class NJNPActivity extends ActionBarActivity {
         if (audioStatus) {
             //TODO implement audio recording
             MediaRecorder recorder = new MediaRecorder();
+            recorder.setMaxDuration(50000);
             recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
             recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
             recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
@@ -199,14 +164,7 @@ public class NJNPActivity extends ActionBarActivity {
                 Log.e(NJNP_TAG, "Error on prepare record: " + e.getMessage());
             }
             recorder.start();   // Recording is now started
-            try {
-                Thread.sleep(4000);
-            } catch (InterruptedException e) {
-                Log.e(NJNP_TAG, "Error on thread sleep: " + e.getMessage());
-            }
-            recorder.stop();
-            recorder.reset();   // You can reuse the object by going back to setAudioSource() step
-            recorder.release();
+
         }
     }
 

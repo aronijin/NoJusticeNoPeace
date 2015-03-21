@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Audio"
-                android:id="@+id/textView"
+                android:id="@+id/audio_text_view"
                 android:layout_gravity="center_vertical"
                 android:textColor="#fffffa25"
                 android:layout_weight="1" />
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Video"
-                android:id="@+id/textView"
+                android:id="@+id/video_text_view"
                 android:layout_gravity="center_vertical"
                 android:textColor="#fffffa25"
                 android:layout_weight="1" />
@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Send SMS"
-                android:id="@+id/textView"
+                android:id="@+id/sms_text_view"
                 android:layout_gravity="center_vertical"
                 android:textColor="#fffffa25"
                 android:layout_weight="1" />
@@ -123,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Send Email"
-                android:id="@+id/textView"
+                android:id="@+id/email_text_view"
                 android:layout_gravity="center_vertical"
                 android:textColor="#fffffa25"
                 android:layout_weight="1" />
@@ -147,7 +147,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="DropBox"
-                android:id="@+id/textView"
+                android:id="@+id/dropbox_text_view"
                 android:layout_gravity="center_vertical"
                 android:textColor="#fffffa25"
                 android:layout_weight="1" />
@@ -171,7 +171,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Keep On Device"
-                android:id="@+id/textView"
+                android:id="@+id/keep_on_device_text_view"
                 android:layout_gravity="center_vertical"
                 android:textColor="#fffffa25"
                 android:layout_weight="1" />
