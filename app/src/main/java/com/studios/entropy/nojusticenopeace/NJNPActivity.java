@@ -1,23 +1,18 @@
 package com.studios.entropy.nojusticenopeace;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.media.MediaRecorder;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.ToggleButton;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  *
@@ -27,9 +22,7 @@ import java.util.Locale;
 public class NJNPActivity extends ActionBarActivity {
 
     private static final String NJNP_TAG = "NJNPActivity";
-    private static final String DIRECTORY_PATH = "/sdcard/NoJusticeNoPeace/";
-    private static final String AUDIO_FILE_NAME = "audio_file_";
-    private static final String DATE_FORMAT = "yyyy_MM_dd";
+    private static final int mNotificationId = 001;
 
     private static boolean audioStatus;
     private static boolean videoStatus;
@@ -38,13 +31,14 @@ public class NJNPActivity extends ActionBarActivity {
     private static boolean dropboxStatus;
     private static boolean localStatus;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_njnp);
 
         // Create directory
-        File NJNPDirectory = new File(DIRECTORY_PATH);
+        File NJNPDirectory = new File(NJNPConstants.DIRECTORY_PATH);
         NJNPDirectory.mkdirs();
 
         // Grab UI components
@@ -133,41 +127,44 @@ public class NJNPActivity extends ActionBarActivity {
     CompoundButton.OnCheckedChangeListener onStartToggle = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             if (isChecked) {
-                // Enable vibrate
-                runAudio();
-                runVideo();
-                runSMS();
-                runEmail();
-                runDropbox();
-                runKeepOnDevice();
+                // Create notification and add to view
+                NotificationCompat.Builder mBuilder = buildNotification();
+                mNotifyMgr.notify(mNotificationId, mBuilder.build());
+
             } else {
-                // Disable vibrate
+                // Remove Notification from view
+                mNotifyMgr.cancel(mNotificationId);
             }
         }
     };
 
-    private void runAudio() {
-        if (audioStatus) {
-            //TODO implement audio recording
-            MediaRecorder recorder = new MediaRecorder();
-            recorder.setMaxDuration(50000);
-            recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.US);
+    private NotificationCompat.Builder buildNotification() {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(NJNPActivity.this)
+                .setSmallIcon(R.drawable.abc_btn_default_mtrl_shape)
+                .setContentTitle("This is my notification text!")
+                .setContentText("No Justice No Peace!")
+                .setAutoCancel(true);
 
-            recorder.setOutputFile(DIRECTORY_PATH + AUDIO_FILE_NAME + sdf.format(new Date()) + ".3gp");
-            try {
-                recorder.prepare();
-            } catch (IOException e) {
-                Log.e(NJNP_TAG, "Error on prepare record: " + e.getMessage());
-            }
-            recorder.start();   // Recording is now started
 
-        }
+        // Set activity to be called when notification is selected
+        Intent resultIntent = new Intent(NJNPActivity.this, NJNPBackgroundService.class);
+        resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        PendingIntent resultPendingIntent = PendingIntent.getService(NJNPActivity.this,
+                       0,
+                        resultIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+
+        mBuilder.setContentIntent(resultPendingIntent);
+        return mBuilder;
     }
 
+    /**
+     * Run Methods
+     */
     private void runVideo() {
         if (videoStatus) {
             //TODO implement video recording
