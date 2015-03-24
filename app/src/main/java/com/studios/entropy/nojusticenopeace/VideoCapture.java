@@ -18,6 +18,9 @@ import android.view.View;
 
 import java.io.IOException;
 
+//
+//Created by Joseph Herndon on 3/24/15.
+//
 
 public abstract class VideoCapture extends NJNPActivity implements OnClickListener, SurfaceHolder.Callback {
 
