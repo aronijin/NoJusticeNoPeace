@@ -186,6 +186,7 @@ public class NJNPActivity extends ActionBarActivity {
     private void runVideo() {
         if (videoStatus) {
             //TODO implement video recording
+
         }
     }
 

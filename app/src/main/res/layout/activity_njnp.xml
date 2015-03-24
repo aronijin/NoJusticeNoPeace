@@ -73,7 +73,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/video_toggle_btn"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:clickable="false" />
 
             <EditText
                 android:layout_width="match_parent"
