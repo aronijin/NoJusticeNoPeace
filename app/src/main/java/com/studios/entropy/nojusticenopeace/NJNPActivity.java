@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.ToggleButton;
@@ -16,7 +17,7 @@ import java.io.File;
 
 /**
  *
- * @authior Nathanial Heard, Joesph Herndon
+ * @authior Nathanial Heard, Joseph Herndon
  *
  */
 public class NJNPActivity extends ActionBarActivity {
@@ -26,6 +27,7 @@ public class NJNPActivity extends ActionBarActivity {
 
     private static boolean audioStatus;
     private static boolean videoStatus;
+    private static boolean frontCameraStatus;
     private static boolean smsStatus;
     private static boolean emailStatus;
     private static boolean dropboxStatus;
@@ -44,6 +46,7 @@ public class NJNPActivity extends ActionBarActivity {
         // Grab UI components
         Switch audioToggleBtn = (Switch) this.findViewById(R.id.audio_toggle_btn);
         Switch videoToggleBtn = (Switch) this.findViewById(R.id.video_toggle_btn);
+        CheckBox frontCameraCheckboxBtn = (CheckBox) this.findViewById(R.id.front_camera_checkbox_btn);
         Switch smsToggleBtn = (Switch) this.findViewById(R.id.sms_toggle_btn);
         Switch emailToggleBtn = (Switch) this.findViewById(R.id.email_toggle_btn);
         Switch dropboxToggleBtn = (Switch) this.findViewById(R.id.dropbox_toggle_btn);
@@ -52,6 +55,7 @@ public class NJNPActivity extends ActionBarActivity {
 
         audioToggleBtn.setOnCheckedChangeListener(onAudioToggle);
         videoToggleBtn.setOnCheckedChangeListener(onVideoToggle);
+        frontCameraCheckboxBtn.setOnCheckedChangeListener(onFrontCameraCheckbox);
         smsToggleBtn.setOnCheckedChangeListener(onSMSToggle);
         emailToggleBtn.setOnCheckedChangeListener(onEmailToggle);
         dropboxToggleBtn.setOnCheckedChangeListener(onDropboxToggle);
@@ -95,6 +99,14 @@ public class NJNPActivity extends ActionBarActivity {
             videoStatus = isChecked;
         }
     };
+
+    CompoundButton.OnCheckedChangeListener onFrontCameraCheckbox = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            frontCameraStatus = isChecked;
+        }
+    };
+
 
     CompoundButton.OnCheckedChangeListener onSMSToggle = new CompoundButton.OnCheckedChangeListener() {
         @Override
@@ -165,6 +177,12 @@ public class NJNPActivity extends ActionBarActivity {
     /**
      * Run Methods
      */
+    private void runFrontCamera() {
+        if (frontCameraStatus) {
+            //TODO implement camera type boolean
+        }
+    }
+
     private void runVideo() {
         if (videoStatus) {
             //TODO implement video recording

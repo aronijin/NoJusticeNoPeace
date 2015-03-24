@@ -89,6 +89,33 @@
                 android:layout_marginLeft="20dp" />
 
         </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.09">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Use Front Facing Camera"
+                android:id="@+id/front_facing_camera_textview"
+                android:textColor="#ffffffff"
+                android:layout_marginLeft="30dp"
+                android:layout_gravity="center" />
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/front_camera_checkbox_btn"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp" />
+
+        </LinearLayout>
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
