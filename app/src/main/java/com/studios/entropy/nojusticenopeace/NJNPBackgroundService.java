@@ -2,6 +2,7 @@ package com.studios.entropy.nojusticenopeace;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.os.CountDownTimer;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,6 +19,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.Executors;
 
 /**
  *
@@ -25,23 +28,39 @@ import java.util.Locale;
  *
  * Created by Nathan Heard on 3/23/2015.
  */
-public class NJNPBackgroundService extends Service {
+public class NJNPBackgroundService extends IntentService  {
 
     private static final String NJNP_Background_TAG = "NJNPBackgroundActivity";
     private MediaRecorder recorder;
 
     /**
-     * Creates an IntentService.
+     * Creates an IntentService.  Invoked by your subclass's constructor.
      *
      */
     public NJNPBackgroundService() {
-        new AudioAsyncRunner().execute("");
+        super(NJNP_Background_TAG);
+        Log.i(NJNP_Background_TAG, "Constructor in NJNPBackgroundService is called.");
     }
 
     @Override
-    public IBinder onBind(Intent intent) {
+    public void onCreate() {
+        super.onCreate();
+        Log.i(NJNP_Background_TAG, "Creating NJNPBackgroundService");
 
-        return null;
+        // Run async task to perform desired operations
+        AsyncTask<String, Integer, String> asyncTask = new AudioAsyncRunner();
+        asyncTask.executeOnExecutor(Executors.newSingleThreadExecutor());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i(NJNP_Background_TAG, "Destroying NJNPBackgroundService.");
+    }
+
+    @Override
+    protected void onHandleIntent(Intent intent) {
+
     }
 
     private class AudioAsyncRunner extends AsyncTask<String, Integer, String> {
@@ -65,6 +84,11 @@ public class NJNPBackgroundService extends Service {
         protected void onPostExecute(String result) {
             AudioHelper.stopAudio();
             Log.i(NJNP_Background_TAG, "Audio Stopped!");
+
+            NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            NotificationCompat.Builder mBuilder = NJNPNotificationBuilder.buildNotification(NJNPBackgroundService.this);
+            mNotifyMgr.notify(NJNPConstants.mNotificationId, mBuilder.build());
+
         }
 
         @Override

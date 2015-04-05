@@ -1,11 +1,13 @@
 package com.studios.entropy.nojusticenopeace;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
@@ -23,7 +25,6 @@ import java.io.File;
 public class NJNPActivity extends ActionBarActivity {
 
     private static final String NJNP_TAG = "NJNPActivity";
-    private static final int mNotificationId = 001;
 
     private static boolean audioStatus;
     private static boolean videoStatus;
@@ -139,78 +140,16 @@ public class NJNPActivity extends ActionBarActivity {
     CompoundButton.OnCheckedChangeListener onStartToggle = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            NotificationManager mNotifyMgr = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
+
             if (isChecked) {
                 // Create notification and add to view
-                NotificationCompat.Builder mBuilder = buildNotification();
-                mNotifyMgr.notify(mNotificationId, mBuilder.build());
-
-            } else {
-                // Remove Notification from view
-                mNotifyMgr.cancel(mNotificationId);
+                NotificationCompat.Builder mBuilder = NJNPNotificationBuilder.buildNotification(NJNPActivity.this);
+                mNotifyMgr.notify(NJNPConstants.mNotificationId, mBuilder.build());
+            } else if (!isChecked) {
+                NotificationCompat.Builder mBuilder = NJNPNotificationBuilder.buildNotification(NJNPActivity.this);
+                mNotifyMgr.cancel(NJNPConstants.mNotificationId);
             }
         }
     };
-
-    private NotificationCompat.Builder buildNotification() {
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(NJNPActivity.this)
-                .setSmallIcon(R.drawable.abc_btn_default_mtrl_shape)
-                .setContentTitle("This is my notification text!")
-                .setContentText("No Justice No Peace!")
-                .setAutoCancel(true);
-
-
-        // Set activity to be called when notification is selected
-        Intent resultIntent = new Intent(NJNPActivity.this, NJNPBackgroundService.class);
-        resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-        PendingIntent resultPendingIntent = PendingIntent.getService(NJNPActivity.this,
-                       0,
-                        resultIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );
-
-        mBuilder.setContentIntent(resultPendingIntent);
-        return mBuilder;
-    }
-
-    /**
-     * Run Methods
-     */
-    private void runFrontCamera() {
-        if (frontCameraStatus) {
-            //TODO implement camera type boolean
-        }
-    }
-
-    private void runVideo() {
-        if (videoStatus) {
-            //TODO implement video recording
-
-        }
-    }
-
-    private void runSMS() {
-        if (smsStatus) {
-            //TODO implement sms sending
-        }
-    }
-
-    private void runEmail() {
-        if (emailStatus) {
-            //TODO implement email sending
-        }
-    }
-
-    private void runDropbox() {
-        if (dropboxStatus) {
-            //TODO implement dropbox saving
-        }
-    }
-
-    private void runKeepOnDevice() {
-        if (localStatus) {
-            //TODO implement local saving
-        }
-    }
 }

@@ -17,6 +17,11 @@ public class AudioHelper {
 
     private static MediaRecorder recorder;
 
+    /**
+     * method used to create and run MediaRecorder for audio recording
+     *
+     * @throws IOException for audio file path storage location
+     */
     public static void runAudio() throws IOException{
         recorder = new MediaRecorder();
 
@@ -31,9 +36,15 @@ public class AudioHelper {
         recorder.start();   // Recording is now started
     }
 
+    /**
+     * method used to stop and free MediaRecorder from audio recording
+     *
+     */
     public static void stopAudio() {
         recorder.stop();
+        recorder.reset();
         recorder.release();
+        recorder = null;
     }
 
 }
