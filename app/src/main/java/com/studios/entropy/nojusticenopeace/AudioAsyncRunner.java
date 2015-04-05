@@ -2,6 +2,7 @@ package com.studios.entropy.nojusticenopeace;
 
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -37,8 +38,10 @@ public class AudioAsyncRunner extends AsyncTask<Integer, Integer, String> {
     protected void onPostExecute(String result) {
         AudioHelper.stopAudio();
         Log.i(AUDIO_ASYNC_RUNNER_TAG, "Audio Stopped!");
-        rebitrhNotification();
-        Log.i(AUDIO_ASYNC_RUNNER_TAG, "Notification Re-birthed!");
+
+        Intent intent = new Intent(NJNPConstants.ACTION_AUDIO);
+        applicationContext.sendBroadcast(intent);
+        Log.i(AUDIO_ASYNC_RUNNER_TAG, "Broadcast audio completion!");
     }
 
     @Override
@@ -56,18 +59,7 @@ public class AudioAsyncRunner extends AsyncTask<Integer, Integer, String> {
         // Used for updating progress
     }
 
-    public void rebitrhNotification() {
-        NotificationCompat.Builder mBuilder = NJNPNotificationBuilder.buildNotification(applicationContext);
-        mNotifyMgr.notify(NJNPConstants.mNotificationId, mBuilder.build());
-    }
-
-
     public static void setApplicationContext(Context applicationContext) {
         AudioAsyncRunner.applicationContext = applicationContext;
     }
-
-    public static void setmNotifyMgr(NotificationManager mNotifyMgr) {
-        AudioAsyncRunner.mNotifyMgr = mNotifyMgr;
-    }
-
 }

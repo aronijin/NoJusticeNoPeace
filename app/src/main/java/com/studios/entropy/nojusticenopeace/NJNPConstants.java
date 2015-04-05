@@ -14,4 +14,11 @@ public class NJNPConstants {
     public static final int mNotificationId = 001;
     public static final int DEFAULT_DURATION = 1;
 
+    public static final String ACTION_AUDIO = "android.intent.action.ASYNC_AUDIO";
+    public static final String ACTION_VIDEO = "android.intent.action.ASYNC_VIDEO";
+    public static final String ACTION_SMS = "android.intent.action.ASYNC_SMS";
+    public static final String ACTION_EMAIL = "android.intent.action.ASYNC_EMAIL";
+    public static final String ACTION_DROPBOX = "android.intent.action.ASYNC_DROPBOX";
+    public static final String ACTION_FRONTCAMERA = "android.intent.action.ASYNC_FRONTCAMERA";
+    public static final String ACTION_LOCAL = "android.intent.action.ASYNC_LOCAL";
 }

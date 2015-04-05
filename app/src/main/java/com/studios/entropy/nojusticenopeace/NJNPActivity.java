@@ -1,6 +1,8 @@
 package com.studios.entropy.nojusticenopeace;
 
 import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
+import android.content.IntentFilter;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -27,6 +29,7 @@ import java.io.File;
 public class NJNPActivity extends ActionBarActivity {
 
     private static final String NJNP_TAG = "NJNPActivity";
+    private static final BroadcastReceiver NJNPReceiver = new NJNPBroadcastReceiver();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,12 +185,24 @@ public class NJNPActivity extends ActionBarActivity {
             NotificationManager mNotifyMgr = (NotificationManager) NJNPActivity.this.getSystemService(NOTIFICATION_SERVICE);
 
             if (isChecked) {
+                // Register Broadcast Receiver
+                IntentFilter filter = new IntentFilter();
+                filter.addAction(NJNPConstants.ACTION_AUDIO);
+                filter.addAction(NJNPConstants.ACTION_VIDEO);
+                filter.addAction(NJNPConstants.ACTION_EMAIL);
+                filter.addAction(NJNPConstants.ACTION_SMS);
+                filter.addAction(NJNPConstants.ACTION_DROPBOX);
+                filter.addAction(NJNPConstants.ACTION_FRONTCAMERA);
+                filter.addAction(NJNPConstants.ACTION_LOCAL);
+                registerReceiver(NJNPReceiver, filter);
+
                 // Create Notification
                 NotificationCompat.Builder mBuilder = NJNPNotificationBuilder.buildNotification(NJNPActivity.this);
                 mNotifyMgr.notify(NJNPConstants.mNotificationId, mBuilder.build());
             } else if (!isChecked) {
-                // Cancel Notification
+                // Cancel Notification and Unregister Broadcast Receiver
                 mNotifyMgr.cancel(NJNPConstants.mNotificationId);
+                unregisterReceiver(NJNPReceiver);
             }
         }
     };

@@ -15,7 +15,6 @@ public class VideoAsyncRunner extends AsyncTask<Integer, Integer, String> {
 
     private static final String VIDEO_ASYNC_RUNNER_TAG = "VideoAsyncRunner";
     private static Context applicationContext;
-    private static NotificationManager mNotifyMgr;
 
     @Override
     protected String doInBackground(Integer... params) {
@@ -37,8 +36,7 @@ public class VideoAsyncRunner extends AsyncTask<Integer, Integer, String> {
     protected void onPostExecute(String result) {
         VideoHelper.stopVideo();
         Log.i(VIDEO_ASYNC_RUNNER_TAG, "Video Stopped!");
-        //rebitrhNotification();
-        Log.i(VIDEO_ASYNC_RUNNER_TAG, "Notification Re-birthed!");
+        //TODO Notification Re-birth
     }
 
     @Override
@@ -56,18 +54,9 @@ public class VideoAsyncRunner extends AsyncTask<Integer, Integer, String> {
         // Used for updating progress
     }
 
-    public void rebitrhNotification() {
-        NotificationCompat.Builder mBuilder = NJNPNotificationBuilder.buildNotification(applicationContext);
-        mNotifyMgr.notify(NJNPConstants.mNotificationId, mBuilder.build());
-    }
-
 
     public static void setApplicationContext(Context applicationContext) {
         VideoAsyncRunner.applicationContext = applicationContext;
-    }
-
-    public static void setmNotifyMgr(NotificationManager mNotifyMgr) {
-        VideoAsyncRunner.mNotifyMgr = mNotifyMgr;
     }
 
 }

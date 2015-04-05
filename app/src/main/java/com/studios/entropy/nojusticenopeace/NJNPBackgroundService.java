@@ -89,33 +89,53 @@ public class NJNPBackgroundService extends IntentService  {
         }
         Log.i(NJNP_Background_TAG, "Starting NJNPBackgroundService");
 
-        // Setup notificaiton manager
-        NotificationManager notificationManager = (NotificationManager) NJNPBackgroundService.this.getSystemService(NOTIFICATION_SERVICE);
-
         // Run async task to perform desired operations
         if (audioStatus) {
             AsyncTask<Integer, Integer, String> asyncTask = new AudioAsyncRunner();
             ((AudioAsyncRunner)asyncTask).setApplicationContext(NJNPBackgroundService.this);
-            ((AudioAsyncRunner)asyncTask).setmNotifyMgr(notificationManager);
             asyncTask.executeOnExecutor(Executors.newSingleThreadExecutor(), audioDurationMin);
+        } else {
+            Intent flagAudioIntent = new Intent(NJNPConstants.ACTION_AUDIO);
+            sendBroadcast(flagAudioIntent);
         }
 
         if (videoStatus) {
             AsyncTask<Integer, Integer, String> asyncTask = new VideoAsyncRunner();
             ((VideoAsyncRunner)asyncTask).setApplicationContext(NJNPBackgroundService.this);
-            ((VideoAsyncRunner)asyncTask).setmNotifyMgr(notificationManager);
             asyncTask.executeOnExecutor(Executors.newSingleThreadExecutor(), videoDurationMin);
+        } else {
+            Intent flagVideoIntent = new Intent(NJNPConstants.ACTION_VIDEO);
+            sendBroadcast(flagVideoIntent);
         }
-
-        //TODO front camera async task
-
-        //TODO sms async task
 
         //TODO email async task
 
+        // Be sure to add broadcast flag
+        Intent flagEmailIntent = new Intent(NJNPConstants.ACTION_EMAIL);
+        sendBroadcast(flagEmailIntent);
+
+        //TODO sms async task
+
+        // Be sure to add broadcast flag
+        Intent flagSMSIntent = new Intent(NJNPConstants.ACTION_SMS);
+        sendBroadcast(flagSMSIntent);
+
         //TODO dropbox async task
 
+        // Be sure to add broadcast flag
+        Intent flagDropboxIntent = new Intent(NJNPConstants.ACTION_DROPBOX);
+        sendBroadcast(flagDropboxIntent);
+
+        //TODO front camera async task
+
+        // Be sure to add broadcast flag
+        Intent flagFrontCameraIntent = new Intent(NJNPConstants.ACTION_FRONTCAMERA);
+        sendBroadcast(flagFrontCameraIntent);
+
         //TODO local async task
+        // Be sure to add broadcast flag
+        Intent flagLocalIntent = new Intent(NJNPConstants.ACTION_LOCAL);
+        sendBroadcast(flagLocalIntent);
 
         return START_STICKY;
     }

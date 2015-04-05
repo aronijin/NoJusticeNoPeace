@@ -29,6 +29,11 @@
             android:name=".NJNPBackgroundService"
             android:exported="false" />
 
+        <receiver android:name=".NJNPBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true">
+        </receiver>
+
         <activity
             android:name=".VideoCapture"
             android:label="@string/title_activity_video_capture" >
