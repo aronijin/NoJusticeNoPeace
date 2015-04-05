@@ -100,7 +100,12 @@ public class NJNPBackgroundService extends IntentService  {
             asyncTask.executeOnExecutor(Executors.newSingleThreadExecutor(), audioDurationMin);
         }
 
-        //TODO video async task
+        if (videoStatus) {
+            AsyncTask<Integer, Integer, String> asyncTask = new VideoAsyncRunner();
+            ((VideoAsyncRunner)asyncTask).setApplicationContext(NJNPBackgroundService.this);
+            ((VideoAsyncRunner)asyncTask).setmNotifyMgr(notificationManager);
+            asyncTask.executeOnExecutor(Executors.newSingleThreadExecutor(), videoDurationMin);
+        }
 
         //TODO front camera async task
 
