@@ -69,20 +69,23 @@ public class NJNPBackgroundService extends IntentService  {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Bundle extras = intent.getExtras();
-        if (extras != null) {
-            // Grab all statuses
-            audioStatus = extras.getBoolean("audioStatus");
-            videoStatus = extras.getBoolean("videoStatus");
-            frontCameraStatus = extras.getBoolean("frontCameraStatus");
-            smsStatus = extras.getBoolean("smsStatus");
-            emailStatus = extras.getBoolean("emailStatus");
-            dropboxStatus = extras.getBoolean("dropboxStatus");
-            localStatus = extras.getBoolean("localStatus");
+        if (intent != null) {
 
-            // Grab all durations
-            audioDurationMin = extras.getInt("audioDurationMin");
-            videoDurationMin = extras.getInt("videoDurationMin");
+            Bundle extras = intent.getExtras();
+            if (extras != null) {
+                // Grab all statuses
+                audioStatus = extras.getBoolean("audioStatus");
+                videoStatus = extras.getBoolean("videoStatus");
+                frontCameraStatus = extras.getBoolean("frontCameraStatus");
+                smsStatus = extras.getBoolean("smsStatus");
+                emailStatus = extras.getBoolean("emailStatus");
+                dropboxStatus = extras.getBoolean("dropboxStatus");
+                localStatus = extras.getBoolean("localStatus");
+
+                // Grab all durations
+                audioDurationMin = extras.getInt("audioDurationMin");
+                videoDurationMin = extras.getInt("videoDurationMin");
+            }
         }
         Log.i(NJNP_Background_TAG, "Starting NJNPBackgroundService");
 
