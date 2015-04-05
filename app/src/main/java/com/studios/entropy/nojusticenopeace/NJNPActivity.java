@@ -1,23 +1,25 @@
 package com.studios.entropy.nojusticenopeace;
 
-import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.ToggleButton;
 
 import java.io.File;
 
 /**
+ *
+ * Class used to set desired settings for generated notification activation
  *
  * @authior Nathanial Heard, Joseph Herndon
  *
@@ -26,19 +28,12 @@ public class NJNPActivity extends ActionBarActivity {
 
     private static final String NJNP_TAG = "NJNPActivity";
 
-    private static boolean audioStatus;
-    private static boolean videoStatus;
-    private static boolean frontCameraStatus;
-    private static boolean smsStatus;
-    private static boolean emailStatus;
-    private static boolean dropboxStatus;
-    private static boolean localStatus;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_njnp);
+
+        Log.i(NJNP_TAG, "Starting No Justice No Peace App");
 
         // Create directory
         File NJNPDirectory = new File(NJNPConstants.DIRECTORY_PATH);
@@ -62,8 +57,14 @@ public class NJNPActivity extends ActionBarActivity {
         dropboxToggleBtn.setOnCheckedChangeListener(onDropboxToggle);
         keepOnDeviceToggleBtn.setOnCheckedChangeListener(onKeepOnDeviceToggle);
         startToggleBtn.setOnCheckedChangeListener(onStartToggle);
-    }
 
+
+        EditText audioEditText = (EditText) this.findViewById(R.id.audio_edit_text);
+        EditText videoEditText = (EditText) this.findViewById(R.id.video_edit_text);
+
+        audioEditText.addTextChangedListener(audioTextWatcher);
+        videoEditText.addTextChangedListener(videoTextWatcher);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -87,24 +88,62 @@ public class NJNPActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    TextWatcher audioTextWatcher =  new TextWatcher(){
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (s.length() > 0) {
+                NJNPNotificationBuilder.setAudioDurationMin(Integer.valueOf(s.toString()));
+            } else {
+                NJNPNotificationBuilder.setAudioDurationMin(NJNPConstants.DEFAULT_DURATION);
+            }
+        }
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after){
+
+        }
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count){
+
+        }
+    };
+
+    TextWatcher videoTextWatcher =  new TextWatcher(){
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (s.length() > 0) {
+                NJNPNotificationBuilder.setAudioDurationMin(Integer.valueOf(s.toString()));
+            } else {
+                NJNPNotificationBuilder.setAudioDurationMin(NJNPConstants.DEFAULT_DURATION);
+            }
+        }
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after){
+
+        }
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count){
+
+        }
+    };
+
     CompoundButton.OnCheckedChangeListener onAudioToggle = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            audioStatus = isChecked;
+            NJNPNotificationBuilder.setAudioStatus(isChecked);
         }
     };
 
     CompoundButton.OnCheckedChangeListener onVideoToggle = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            videoStatus = isChecked;
+            NJNPNotificationBuilder.setVideoStatus(isChecked);
         }
     };
 
     CompoundButton.OnCheckedChangeListener onFrontCameraCheckbox = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            frontCameraStatus = isChecked;
+            NJNPNotificationBuilder.setFrontCameraStatus(isChecked);
         }
     };
 
@@ -112,42 +151,42 @@ public class NJNPActivity extends ActionBarActivity {
     CompoundButton.OnCheckedChangeListener onSMSToggle = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            smsStatus = isChecked;
+            NJNPNotificationBuilder.setSmsStatus(isChecked);
         }
     };
 
     CompoundButton.OnCheckedChangeListener onEmailToggle = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            emailStatus = isChecked;
+            NJNPNotificationBuilder.setEmailStatus(isChecked);
         }
     };
 
     CompoundButton.OnCheckedChangeListener onDropboxToggle = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            dropboxStatus = isChecked;
+            NJNPNotificationBuilder.setDropboxStatus(isChecked);
         }
     };
 
     CompoundButton.OnCheckedChangeListener onKeepOnDeviceToggle = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            localStatus = isChecked;
+            NJNPNotificationBuilder.setLocalStatus(isChecked);
         }
     };
 
     CompoundButton.OnCheckedChangeListener onStartToggle = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            NotificationManager mNotifyMgr = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
+            NotificationManager mNotifyMgr = (NotificationManager) NJNPActivity.this.getSystemService(NOTIFICATION_SERVICE);
 
             if (isChecked) {
-                // Create notification and add to view
+                // Create Notification
                 NotificationCompat.Builder mBuilder = NJNPNotificationBuilder.buildNotification(NJNPActivity.this);
                 mNotifyMgr.notify(NJNPConstants.mNotificationId, mBuilder.build());
             } else if (!isChecked) {
-                NotificationCompat.Builder mBuilder = NJNPNotificationBuilder.buildNotification(NJNPActivity.this);
+                // Cancel Notification
                 mNotifyMgr.cancel(NJNPConstants.mNotificationId);
             }
         }

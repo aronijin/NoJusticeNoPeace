@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaRecorder;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
@@ -33,6 +34,17 @@ public class NJNPBackgroundService extends IntentService  {
     private static final String NJNP_Background_TAG = "NJNPBackgroundActivity";
     private MediaRecorder recorder;
 
+    private static boolean audioStatus;
+    private static boolean videoStatus;
+    private static boolean frontCameraStatus;
+    private static boolean smsStatus;
+    private static boolean emailStatus;
+    private static boolean dropboxStatus;
+    private static boolean localStatus;
+
+    private static int audioDurationMin;
+    private static int videoDurationMin;
+
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
      *
@@ -46,10 +58,58 @@ public class NJNPBackgroundService extends IntentService  {
     public void onCreate() {
         super.onCreate();
         Log.i(NJNP_Background_TAG, "Creating NJNPBackgroundService");
+        audioStatus = false;
+        videoStatus = false;
+        frontCameraStatus = false;
+        smsStatus = false;
+        emailStatus = false;
+        dropboxStatus = false;
+        localStatus = false;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            // Grab all statuses
+            audioStatus = extras.getBoolean("audioStatus");
+            videoStatus = extras.getBoolean("videoStatus");
+            frontCameraStatus = extras.getBoolean("frontCameraStatus");
+            smsStatus = extras.getBoolean("smsStatus");
+            emailStatus = extras.getBoolean("emailStatus");
+            dropboxStatus = extras.getBoolean("dropboxStatus");
+            localStatus = extras.getBoolean("localStatus");
+
+            // Grab all durations
+            audioDurationMin = extras.getInt("audioDurationMin");
+            videoDurationMin = extras.getInt("videoDurationMin");
+        }
+        Log.i(NJNP_Background_TAG, "Starting NJNPBackgroundService");
+
+        // Setup notificaiton manager
+        NotificationManager notificationManager = (NotificationManager) NJNPBackgroundService.this.getSystemService(NOTIFICATION_SERVICE);
 
         // Run async task to perform desired operations
-        AsyncTask<String, Integer, String> asyncTask = new AudioAsyncRunner();
-        asyncTask.executeOnExecutor(Executors.newSingleThreadExecutor());
+        if (audioStatus) {
+            AsyncTask<Integer, Integer, String> asyncTask = new AudioAsyncRunner();
+            ((AudioAsyncRunner)asyncTask).setApplicationContext(NJNPBackgroundService.this);
+            ((AudioAsyncRunner)asyncTask).setmNotifyMgr(notificationManager);
+            asyncTask.executeOnExecutor(Executors.newSingleThreadExecutor(), audioDurationMin);
+        }
+
+        //TODO video async task
+
+        //TODO front camera async task
+
+        //TODO sms async task
+
+        //TODO email async task
+
+        //TODO dropbox async task
+
+        //TODO local async task
+
+        return START_STICKY;
     }
 
     @Override
@@ -61,49 +121,5 @@ public class NJNPBackgroundService extends IntentService  {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-    }
-
-    private class AudioAsyncRunner extends AsyncTask<String, Integer, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-
-
-            for (int i = 0; i < 5; i++) {
-                try {
-                    Thread.sleep(1000);
-                    Log.i(NJNP_Background_TAG, "i: " + i);
-                } catch (InterruptedException e) {
-                    Thread.interrupted();
-                }
-            }
-            return "Executed";
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            AudioHelper.stopAudio();
-            Log.i(NJNP_Background_TAG, "Audio Stopped!");
-
-            NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            NotificationCompat.Builder mBuilder = NJNPNotificationBuilder.buildNotification(NJNPBackgroundService.this);
-            mNotifyMgr.notify(NJNPConstants.mNotificationId, mBuilder.build());
-
-        }
-
-        @Override
-        protected void onPreExecute() {
-            try {
-                AudioHelper.runAudio();
-                Log.i(NJNP_Background_TAG, "Audio Started!");
-            } catch (IOException e) {
-                Log.i(NJNP_Background_TAG, "Error executing audio recorder: " + e.getMessage());
-            }
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            // Used for updating progress
-        }
     }
 }
