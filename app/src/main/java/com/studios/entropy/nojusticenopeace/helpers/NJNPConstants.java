@@ -1,4 +1,6 @@
-package com.studios.entropy.nojusticenopeace;
+package com.studios.entropy.nojusticenopeace.helpers;
+
+import android.os.Environment;
 
 /**
  * Created by Nathan Heard on 3/23/2015.
@@ -9,7 +11,12 @@ package com.studios.entropy.nojusticenopeace;
 public class NJNPConstants {
 
     public static final String DIRECTORY_PATH = "/sdcard/NoJusticeNoPeace/";
+    public static final String AUDIO_FOLDER = "Audio/";
     public static final String AUDIO_FILE_NAME = "audio_file_";
+    public static final String VIDEO_FOLDER = "Video/";
+    public static final String VIDEO_FILE_NAME = "video_file_";
+    public static final String SETTINGS_FOLDER = "Settings/";
+    public static final String SETTINGS_FILE_NAME = "settings.njnp";
     public static final String DATE_FORMAT = "yyyy_MM_dd_hh_mm_ss";
     public static final int mNotificationId = 001;
     public static final int DEFAULT_DURATION = 1;
@@ -21,4 +28,5 @@ public class NJNPConstants {
     public static final String ACTION_DROPBOX = "android.intent.action.ASYNC_DROPBOX";
     public static final String ACTION_FRONTCAMERA = "android.intent.action.ASYNC_FRONTCAMERA";
     public static final String ACTION_LOCAL = "android.intent.action.ASYNC_LOCAL";
+
 }

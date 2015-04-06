@@ -1,12 +1,14 @@
-package com.studios.entropy.nojusticenopeace;
+package com.studios.entropy.nojusticenopeace.async;
 
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.studios.entropy.nojusticenopeace.helpers.AudioHelper;
+import com.studios.entropy.nojusticenopeace.helpers.NJNPConstants;
+
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -16,7 +18,6 @@ public class AudioAsyncRunner extends AsyncTask<Integer, Integer, String> {
 
     private static final String AUDIO_ASYNC_RUNNER_TAG = "AudioAsyncRunner";
     private static Context applicationContext;
-    private static NotificationManager mNotifyMgr;
 
     @Override
     protected String doInBackground(Integer... params) {
@@ -46,6 +47,10 @@ public class AudioAsyncRunner extends AsyncTask<Integer, Integer, String> {
 
     @Override
     protected void onPreExecute() {
+        File NJNPAudioDirectory = new File(NJNPConstants.DIRECTORY_PATH + NJNPConstants.AUDIO_FOLDER);
+        if (!NJNPAudioDirectory.exists()) {
+            NJNPAudioDirectory.mkdirs();
+        }
         try {
             AudioHelper.runAudio();
             Log.i(AUDIO_ASYNC_RUNNER_TAG, "Audio Started!");

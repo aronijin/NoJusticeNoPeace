@@ -1,10 +1,10 @@
-package com.studios.entropy.nojusticenopeace;
+package com.studios.entropy.nojusticenopeace.async;
 
-import android.app.NotificationManager;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
+import com.studios.entropy.nojusticenopeace.helpers.VideoHelper;
 
 import java.io.IOException;
 

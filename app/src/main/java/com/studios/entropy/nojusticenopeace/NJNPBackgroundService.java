@@ -1,25 +1,16 @@
 package com.studios.entropy.nojusticenopeace;
 
 import android.app.IntentService;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.EditText;
-import android.widget.Toast;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import com.studios.entropy.nojusticenopeace.async.AudioAsyncRunner;
+import com.studios.entropy.nojusticenopeace.async.VideoAsyncRunner;
+import com.studios.entropy.nojusticenopeace.helpers.NJNPConstants;
+
 import java.util.concurrent.Executors;
 
 /**

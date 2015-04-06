@@ -1,17 +1,11 @@
-package com.studios.entropy.nojusticenopeace;
+package com.studios.entropy.nojusticenopeace.helpers;
 
-import android.app.NotificationManager;
 import android.media.MediaRecorder;
-import android.os.AsyncTask;
-import android.os.CountDownTimer;
-import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import com.studios.entropy.nojusticenopeace.NJNPConstants;
 
 /**
  * Created by Nathan Heard on 3/23/2015.
@@ -33,10 +27,10 @@ public class AudioHelper {
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         SimpleDateFormat sdf = new SimpleDateFormat(NJNPConstants.DATE_FORMAT, Locale.US);
 
-        recorder.setOutputFile(NJNPConstants.DIRECTORY_PATH + NJNPConstants.AUDIO_FILE_NAME + sdf.format(new Date()) + ".3gp");
+        recorder.setOutputFile(NJNPConstants.DIRECTORY_PATH + NJNPConstants.AUDIO_FOLDER + NJNPConstants.AUDIO_FILE_NAME + sdf.format(new Date()) + ".3gp");
         recorder.prepare();
 
-        recorder.start();   // Recording is now started
+        recorder.start();   // Audio recording now started
     }
 
     /**
@@ -44,9 +38,11 @@ public class AudioHelper {
      *
      */
     public static void stopAudio() {
-        recorder.stop();
-        recorder.reset();
-        recorder.release();
-        recorder = null;
+        if (recorder != null) {
+            recorder.stop();
+            recorder.reset();
+            recorder.release();
+            recorder = null;
+        }
     }
 }

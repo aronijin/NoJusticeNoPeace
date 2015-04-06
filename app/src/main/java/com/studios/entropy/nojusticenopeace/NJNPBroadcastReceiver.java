@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.studios.entropy.nojusticenopeace.helpers.NJNPConstants;
+
 /**
  * Created by Nathan Heard on 4/5/2015.
  */
@@ -77,6 +79,7 @@ public class NJNPBroadcastReceiver extends BroadcastReceiver {
             setLocalActionStatus(true);
         }
     }
+
     public static boolean isAudioActionStatus() {
         return audioActionStatus;
     }

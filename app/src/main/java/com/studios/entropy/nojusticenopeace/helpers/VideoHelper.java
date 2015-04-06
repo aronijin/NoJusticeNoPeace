@@ -1,4 +1,4 @@
-package com.studios.entropy.nojusticenopeace;
+package com.studios.entropy.nojusticenopeace.helpers;
 
 import android.media.MediaRecorder;
 import java.io.IOException;
