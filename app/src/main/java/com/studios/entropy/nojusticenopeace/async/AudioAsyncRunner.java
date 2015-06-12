@@ -40,8 +40,8 @@ public class AudioAsyncRunner extends AsyncTask<Integer, Integer, String> {
         AudioHelper.stopAudio();
         Log.i(AUDIO_ASYNC_RUNNER_TAG, "Audio Stopped!");
 
-        Intent intent = new Intent(NJNPConstants.ACTION_AUDIO);
-        applicationContext.sendBroadcast(intent);
+        Intent audioCompletionIntent = new Intent(NJNPConstants.ACTION_AUDIO);
+        applicationContext.sendBroadcast(audioCompletionIntent);
         Log.i(AUDIO_ASYNC_RUNNER_TAG, "Broadcast audio completion!");
     }
 

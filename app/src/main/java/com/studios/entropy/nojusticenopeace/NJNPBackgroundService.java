@@ -1,16 +1,18 @@
 package com.studios.entropy.nojusticenopeace;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.studios.entropy.nojusticenopeace.async.AudioAsyncRunner;
-import com.studios.entropy.nojusticenopeace.async.VideoAsyncRunner;
 import com.studios.entropy.nojusticenopeace.helpers.NJNPConstants;
 
+import java.io.File;
 import java.util.concurrent.Executors;
 
 /**
@@ -22,7 +24,7 @@ import java.util.concurrent.Executors;
  */
 public class NJNPBackgroundService extends IntentService  {
 
-    private static final String NJNP_Background_TAG = "NJNPBackgroundActivity";
+    private static final String NJNP_BACKGROUND_SERVICE_TAG = "NJNPBackgroundActivity";
     private MediaRecorder recorder;
 
     private static boolean audioStatus;
@@ -41,14 +43,14 @@ public class NJNPBackgroundService extends IntentService  {
      *
      */
     public NJNPBackgroundService() {
-        super(NJNP_Background_TAG);
-        Log.i(NJNP_Background_TAG, "Constructor in NJNPBackgroundService is called.");
+        super(NJNP_BACKGROUND_SERVICE_TAG);
+        Log.i(NJNP_BACKGROUND_SERVICE_TAG, "Constructor in NJNPBackgroundService is called.");
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i(NJNP_Background_TAG, "Creating NJNPBackgroundService");
+        Log.i(NJNP_BACKGROUND_SERVICE_TAG, "Creating NJNPBackgroundService");
         audioStatus = false;
         videoStatus = false;
         frontCameraStatus = false;
@@ -76,12 +78,13 @@ public class NJNPBackgroundService extends IntentService  {
                 // Grab all durations
                 audioDurationMin = extras.getInt("audioDurationMin");
                 videoDurationMin = extras.getInt("videoDurationMin");
+                Log.i(NJNP_BACKGROUND_SERVICE_TAG, "video duration in background service: " + videoDurationMin);
             }
         }
-        Log.i(NJNP_Background_TAG, "Starting NJNPBackgroundService");
+        Log.i(NJNP_BACKGROUND_SERVICE_TAG, "Starting NJNPBackgroundService");
 
         // Run async task to perform desired operations
-        if (audioStatus) {
+        if (audioStatus && !videoStatus) {
             AsyncTask<Integer, Integer, String> asyncTask = new AudioAsyncRunner();
             ((AudioAsyncRunner)asyncTask).setApplicationContext(NJNPBackgroundService.this);
             asyncTask.executeOnExecutor(Executors.newSingleThreadExecutor(), audioDurationMin);
@@ -91,9 +94,22 @@ public class NJNPBackgroundService extends IntentService  {
         }
 
         if (videoStatus) {
-            AsyncTask<Integer, Integer, String> asyncTask = new VideoAsyncRunner();
-            ((VideoAsyncRunner)asyncTask).setApplicationContext(NJNPBackgroundService.this);
-            asyncTask.executeOnExecutor(Executors.newSingleThreadExecutor(), videoDurationMin);
+
+            File NJNPVideoDirectory = new File(NJNPConstants.DIRECTORY_PATH + NJNPConstants.VIDEO_FOLDER);
+            if (!NJNPVideoDirectory.exists()) {
+                NJNPVideoDirectory.mkdirs();
+            }
+
+            boolean isCameraAvailable = checkCameraHardware(NJNPBackgroundService.this);
+            Log.i(NJNP_BACKGROUND_SERVICE_TAG, "Camera found: " + isCameraAvailable);
+
+            if (isCameraAvailable) {
+                Intent videoCaptureIntent = new Intent(NJNPBackgroundService.this, NJNPVideoCaptureActivity.class);
+                videoCaptureIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                videoCaptureIntent.putExtra(NJNPConstants.VIDEO_DURATION_EXTRA, videoDurationMin);
+                startActivity(videoCaptureIntent);
+                Log.i(NJNP_BACKGROUND_SERVICE_TAG, "Video Started!");
+            }
         } else {
             Intent flagVideoIntent = new Intent(NJNPConstants.ACTION_VIDEO);
             sendBroadcast(flagVideoIntent);
@@ -134,11 +150,22 @@ public class NJNPBackgroundService extends IntentService  {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i(NJNP_Background_TAG, "Destroying NJNPBackgroundService.");
+        Log.i(NJNP_BACKGROUND_SERVICE_TAG, "Destroying NJNPBackgroundService.");
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
 
+    }
+
+    /** Check if this device has a camera */
+    private boolean checkCameraHardware(Context context) {
+        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+            // this device has a camera
+            return true;
+        } else {
+            // no camera on this device
+            return false;
+        }
     }
 }

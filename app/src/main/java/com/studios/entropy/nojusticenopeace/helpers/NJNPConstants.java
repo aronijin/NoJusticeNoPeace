@@ -1,6 +1,9 @@
 package com.studios.entropy.nojusticenopeace.helpers;
 
+import android.content.BroadcastReceiver;
 import android.os.Environment;
+
+import com.studios.entropy.nojusticenopeace.NJNPBroadcastReceiver;
 
 /**
  * Created by Nathan Heard on 3/23/2015.
@@ -10,6 +13,7 @@ import android.os.Environment;
  */
 public class NJNPConstants {
 
+    public static final BroadcastReceiver NJNPBroadcastReceiver = new NJNPBroadcastReceiver();
     public static final String DIRECTORY_PATH = "/sdcard/NoJusticeNoPeace/";
     public static final String AUDIO_FOLDER = "Audio/";
     public static final String AUDIO_FILE_NAME = "audio_file_";
@@ -18,8 +22,10 @@ public class NJNPConstants {
     public static final String SETTINGS_FOLDER = "Settings/";
     public static final String SETTINGS_FILE_NAME = "settings.njnp";
     public static final String DATE_FORMAT = "yyyy_MM_dd_hh_mm_ss";
+    public static final String VIDEO_DURATION_EXTRA = "VideoDurationExtra";
     public static final int mNotificationId = 001;
     public static final int DEFAULT_DURATION = 1;
+
 
     public static final String ACTION_AUDIO = "android.intent.action.ASYNC_AUDIO";
     public static final String ACTION_VIDEO = "android.intent.action.ASYNC_VIDEO";

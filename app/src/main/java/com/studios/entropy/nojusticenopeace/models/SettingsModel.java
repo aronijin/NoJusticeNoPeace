@@ -23,7 +23,6 @@ public class SettingsModel implements Serializable {
     private boolean dropboxState;
     private boolean frontCameraState;
     private boolean localState;
-    private boolean startState;
     private int audioDuration;
     private int videoDuration;
 
@@ -35,7 +34,6 @@ public class SettingsModel implements Serializable {
         this.setDropboxState(false);
         this.setFrontCameraState(false);
         this.setLocalState(false);
-        this.setStartState(false);
     }
 
 
@@ -64,7 +62,6 @@ public class SettingsModel implements Serializable {
         this.setDropboxState(dropboxToggleBtn.isChecked());
         this.setFrontCameraState(frontCameraCheckboxBtn.isChecked());
         this.setLocalState(keepOnDeviceToggleBtn.isChecked());
-        this.setStartState(startToggleBtn.isChecked());
         this.setAudioDuration(Integer.valueOf(audioEditText.getText().toString()));
         this.setVideoDuration(Integer.valueOf(videoEditText.getText().toString()));
     }
@@ -123,14 +120,6 @@ public class SettingsModel implements Serializable {
 
     public void setLocalState(boolean localState) {
         this.localState = localState;
-    }
-
-    public boolean isStartState() {
-        return startState;
-    }
-
-    public void setStartState(boolean startState) {
-        this.startState = startState;
     }
 
     public int getAudioDuration() {

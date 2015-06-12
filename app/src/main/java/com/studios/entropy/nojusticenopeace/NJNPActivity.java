@@ -2,6 +2,7 @@ package com.studios.entropy.nojusticenopeace;
 
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
@@ -39,8 +40,7 @@ import java.io.StreamCorruptedException;
  */
 public class NJNPActivity extends ActionBarActivity {
 
-    private static final String NJNP_TAG = "NJNPActivity";
-    private static final BroadcastReceiver NJNPReceiver = new NJNPBroadcastReceiver();
+    private static final String NJNP_ACTIVITY_TAG = "NJNPActivity";
 
     private static Switch audioToggleBtn;
     private static Switch videoToggleBtn;
@@ -58,7 +58,7 @@ public class NJNPActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_njnp);
-        Log.i(NJNP_TAG, "Starting No Justice No Peace!");
+        Log.i(NJNP_ACTIVITY_TAG, "Starting No Justice No Peace!");
 
         // Grab UI components and attach action listeners
         audioToggleBtn = (Switch) this.findViewById(R.id.audio_toggle_btn);
@@ -86,11 +86,11 @@ public class NJNPActivity extends ActionBarActivity {
         videoEditText.addTextChangedListener(videoTextWatcher);
 
         if(areSettingsPresent()) {
-            Log.i(NJNP_TAG, "Loading previous settings...");
+            Log.i(NJNP_ACTIVITY_TAG, "Loading previous settings...");
             loadSettings();
         } else {
             // Create directory
-            Log.i(NJNP_TAG, "Creating new settings...");
+            Log.i(NJNP_ACTIVITY_TAG, "Creating new settings...");
             File NJNPDirectory = new File(NJNPConstants.DIRECTORY_PATH);
             NJNPDirectory.mkdirs();
         }
@@ -113,21 +113,20 @@ public class NJNPActivity extends ActionBarActivity {
             emailToggleBtn.setChecked(settingsModel.isEmailState());
             dropboxToggleBtn.setChecked(settingsModel.isDropboxState());
             keepOnDeviceToggleBtn.setChecked(settingsModel.isLocalState());
-            startToggleBtn.setChecked(settingsModel.isStartState());
 
             audioEditText.setText(settingsModel.getAudioDuration() + "");
             videoEditText.setText(settingsModel.getVideoDuration() + "");
 
         } catch (FileNotFoundException e) {
-            Log.e(NJNP_TAG, "File Not Found Exception when loading settings: " + e.getMessage());
+            Log.e(NJNP_ACTIVITY_TAG, "File Not Found Exception when loading settings: " + e.getMessage());
         } catch (ClassNotFoundException e) {
-            Log.e(NJNP_TAG, "Class Not Found Exception when loading settings: " + e.getMessage());
+            Log.e(NJNP_ACTIVITY_TAG, "Class Not Found Exception when loading settings: " + e.getMessage());
         } catch (OptionalDataException e) {
-            Log.e(NJNP_TAG, "Option Data Exception when loading settings: " + e.getMessage());
+            Log.e(NJNP_ACTIVITY_TAG, "Option Data Exception when loading settings: " + e.getMessage());
         } catch (StreamCorruptedException e) {
-            Log.e(NJNP_TAG, "Stream Corruption Exception when loading settings: " + e.getMessage());
+            Log.e(NJNP_ACTIVITY_TAG, "Stream Corruption Exception when loading settings: " + e.getMessage());
         } catch (IOException e) {
-            Log.e(NJNP_TAG, "IO Exception when loading settings: " + e.getMessage());
+            Log.e(NJNP_ACTIVITY_TAG, "IO Exception when loading settings: " + e.getMessage());
         }
     }
 
@@ -150,9 +149,9 @@ public class NJNPActivity extends ActionBarActivity {
             os.close();
             fos.close();
         } catch (FileNotFoundException e) {
-            Log.e(NJNP_TAG, "File not found exception when saving settings: " + e.getMessage());
+            Log.e(NJNP_ACTIVITY_TAG, "File not found exception when saving settings: " + e.getMessage());
         } catch (IOException e) {
-            Log.e(NJNP_TAG, "IO Exception when saving settings: " + e.getMessage());
+            Log.e(NJNP_ACTIVITY_TAG, "IO Exception when saving settings: " + e.getMessage());
         }
 
     }
@@ -202,10 +201,12 @@ public class NJNPActivity extends ActionBarActivity {
 
             saveSettings();
         }
+
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after){
 
         }
+
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count){
 
@@ -216,17 +217,18 @@ public class NJNPActivity extends ActionBarActivity {
         @Override
         public void afterTextChanged(Editable s) {
             if (s.length() > 0) {
-                NJNPNotificationBuilder.setAudioDurationMin(Integer.valueOf(s.toString()));
+                NJNPNotificationBuilder.setVideoDurationMin(Integer.valueOf(s.toString()));
             } else {
-                NJNPNotificationBuilder.setAudioDurationMin(NJNPConstants.DEFAULT_DURATION);
+                NJNPNotificationBuilder.setVideoDurationMin(NJNPConstants.DEFAULT_DURATION);
             }
-
             saveSettings();
         }
+
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after){
 
         }
+
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count){
 
@@ -313,16 +315,16 @@ public class NJNPActivity extends ActionBarActivity {
                 filter.addAction(NJNPConstants.ACTION_DROPBOX);
                 filter.addAction(NJNPConstants.ACTION_FRONTCAMERA);
                 filter.addAction(NJNPConstants.ACTION_LOCAL);
-                registerReceiver(NJNPReceiver, filter);
+                registerReceiver(NJNPConstants.NJNPBroadcastReceiver, filter);
 
                 // Create Notification
                 NotificationCompat.Builder mBuilder = NJNPNotificationBuilder.buildNotification(NJNPActivity.this);
                 mNotifyMgr.notify(NJNPConstants.mNotificationId, mBuilder.build());
-            } else if (!isChecked) {
-                // Cancel Notification and Unregister Broadcast Receiver
+            } else {
                 mNotifyMgr.cancel(NJNPConstants.mNotificationId);
-                unregisterReceiver(NJNPReceiver);
+                unregisterReceiver(NJNPConstants.NJNPBroadcastReceiver);
             }
         }
     };
+
 }

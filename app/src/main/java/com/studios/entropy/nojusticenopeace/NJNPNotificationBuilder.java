@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 /**
  *
@@ -13,6 +14,7 @@ import android.support.v4.app.NotificationCompat;
  */
 public class NJNPNotificationBuilder {
 
+    private static final String NJNP_NOTIFICATION_BUILDER_TAG = "NJNPBroadcastReceiver";
     private static boolean audioStatus;
     private static boolean videoStatus;
     private static boolean frontCameraStatus;
@@ -61,6 +63,8 @@ public class NJNPNotificationBuilder {
 
         PendingIntent resultPendingIntent = PendingIntent.getService(context, 0, backgroundIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         mBuilder.setContentIntent(resultPendingIntent);
+
+        Log.i(NJNP_NOTIFICATION_BUILDER_TAG, "Notification built!");
 
         return mBuilder;
     }

@@ -73,8 +73,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/video_toggle_btn"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:clickable="false" />
+                android:layout_weight="1" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -236,7 +235,6 @@
                 android:layout_weight=".4"
                 android:layout_gravity="center" />
         </LinearLayout>
-
     </LinearLayout>
 
 </LinearLayout>

@@ -14,7 +14,7 @@ import com.studios.entropy.nojusticenopeace.helpers.NJNPConstants;
  */
 public class NJNPBroadcastReceiver extends BroadcastReceiver {
 
-    private static final String NJNP_BroadcastReceiver_TAG = "NJNPBroadcastReceiver";
+    private static final String NJNP_BROADCAST_RECEIVER_TAG = "NJNPBroadcastReceiver";
     private static Context applicationContext;
     private static boolean audioActionStatus;
     private static boolean videoActionStatus;
@@ -29,15 +29,16 @@ public class NJNPBroadcastReceiver extends BroadcastReceiver {
 
         this.applicationContext = context;
         deteremineBroadcastAction(intent);
-        Log.i(NJNP_BroadcastReceiver_TAG, "Received: " + intent.getAction());
+        Log.i(NJNP_BROADCAST_RECEIVER_TAG, "Received: " + intent.getAction());
         isLastAction();
     }
 
     public void rebitrhNotification() {
         NotificationCompat.Builder mBuilder = NJNPNotificationBuilder.buildNotification(applicationContext);
         NotificationManager mNotifyMgr = (NotificationManager) applicationContext.getSystemService(applicationContext.NOTIFICATION_SERVICE);
+
+        // Actually build the notification
         mNotifyMgr.notify(NJNPConstants.mNotificationId, mBuilder.build());
-        Log.i(NJNP_BroadcastReceiver_TAG, "Notification reborn!");
 
         // Reset action statuses
         setAudioActionStatus(false);
@@ -47,12 +48,12 @@ public class NJNPBroadcastReceiver extends BroadcastReceiver {
         setDropboxActionStatus(false);
         setFrontCameraActionStatus(false);
         setLocalActionStatus(false);
-        Log.i(NJNP_BroadcastReceiver_TAG, "Action statuses reset!");
     }
 
     private void isLastAction() {
         if (isAudioActionStatus() && isVideoActionStatus() && isEmailActionStatus() && isSmsActionStatus() && isDropboxActionStatus() && isFrontCameraActionStatus() && isLocalActionStatus()) {
             rebitrhNotification();
+            Log.i(NJNP_BROADCAST_RECEIVER_TAG, "Notification reborn!");
         }
     }
 

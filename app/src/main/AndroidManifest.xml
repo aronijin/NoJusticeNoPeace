@@ -2,14 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.studios.entropy.nojusticenopeace" >
 
-    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="true" />
+    <uses-permission android:name="android.permission.RECORD_VIDEO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
         android:allowBackup="true"
@@ -28,7 +27,8 @@
 
         <service
             android:name=".NJNPBackgroundService"
-            android:exported="false" />
+            android:exported="false" >
+        </service>
 
         <receiver android:name=".NJNPBroadcastReceiver"
             android:enabled="true"
@@ -36,9 +36,14 @@
         </receiver>
 
         <activity
-            android:name=".VideoCapture"
+            android:name=".NJNPVideoCaptureActivity"
             android:label="@string/title_activity_video_capture" >
         </activity>
+
+        <service
+            android:name=".helpers.VideoRecorderService"
+            android:label="VideoRecorderService" >
+        </service>
     </application>
 
 </manifest>
