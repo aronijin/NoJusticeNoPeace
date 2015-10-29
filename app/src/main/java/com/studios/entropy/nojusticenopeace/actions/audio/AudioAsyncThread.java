@@ -1,20 +1,18 @@
-package com.studios.entropy.nojusticenopeace.async;
+package com.studios.entropy.nojusticenopeace.actions.audio;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.studios.entropy.nojusticenopeace.helpers.AudioHelper;
-import com.studios.entropy.nojusticenopeace.helpers.NJNPConstants;
+import com.studios.entropy.nojusticenopeace.models.NJNPConstants;
 
 import java.io.File;
 import java.io.IOException;
 
 /**
- * Created by Nathan Heard on 4/5/2015.
+ * @author Nathan Heard on 4/5/2015.
  */
-public class AudioAsyncRunner extends AsyncTask<Integer, Integer, String> {
+public class AudioAsyncThread extends AsyncTask<Integer, Integer, String> {
 
     private static final String AUDIO_ASYNC_RUNNER_TAG = "AudioAsyncRunner";
     private static Context applicationContext;
@@ -40,9 +38,9 @@ public class AudioAsyncRunner extends AsyncTask<Integer, Integer, String> {
         AudioHelper.stopAudio();
         Log.i(AUDIO_ASYNC_RUNNER_TAG, "Audio Stopped!");
 
-        Intent audioCompletionIntent = new Intent(NJNPConstants.ACTION_AUDIO);
-        applicationContext.sendBroadcast(audioCompletionIntent);
-        Log.i(AUDIO_ASYNC_RUNNER_TAG, "Broadcast audio completion!");
+//        Intent audioCompletionIntent = new Intent(NJNPConstants.ACTION_AUDIO);
+//        applicationContext.sendBroadcast(audioCompletionIntent);
+//        Log.i(AUDIO_ASYNC_RUNNER_TAG, "Broadcast audio completion!");
     }
 
     @Override
@@ -65,6 +63,6 @@ public class AudioAsyncRunner extends AsyncTask<Integer, Integer, String> {
     }
 
     public static void setApplicationContext(Context applicationContext) {
-        AudioAsyncRunner.applicationContext = applicationContext;
+        AudioAsyncThread.applicationContext = applicationContext;
     }
 }

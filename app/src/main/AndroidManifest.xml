@@ -7,8 +7,12 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.RECORD_VIDEO" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
 
     <application
         android:allowBackup="true"
@@ -16,7 +20,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".NJNPActivity"
+            android:name=".NJNPStartActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,24 +30,36 @@
         </activity>
 
         <service
-            android:name=".NJNPBackgroundService"
-            android:exported="false" >
+            android:name=".services.NJNPBackgroundService"
+            android:exported="true" >
         </service>
 
-        <receiver android:name=".NJNPBroadcastReceiver"
+        <receiver
+            android:name=".services.NJNPBroadcastReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true" >
         </receiver>
 
         <activity
-            android:name=".NJNPVideoCaptureActivity"
+            android:name=".actions.video.VideoCaptureActivity"
             android:label="@string/title_activity_video_capture" >
         </activity>
 
         <service
-            android:name=".helpers.VideoRecorderService"
+            android:name=".actions.video.VideoRecorderService"
             android:label="VideoRecorderService" >
         </service>
+
+        <activity
+            android:name=".NJNPActionStartActivity"
+            android:label="@string/title_activity_action_start"
+            android:theme="@android:style/Theme.NoDisplay" >
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT"/>
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -1,26 +1,25 @@
-package com.studios.entropy.nojusticenopeace;
+package com.studios.entropy.nojusticenopeace.actions.video;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
 
-import com.studios.entropy.nojusticenopeace.helpers.NJNPConstants;
-import com.studios.entropy.nojusticenopeace.helpers.VideoRecorderService;
+import com.studios.entropy.nojusticenopeace.R;
+import com.studios.entropy.nojusticenopeace.models.NJNPConstants;
 
 import java.io.IOException;
 
-//
-//Created by Joseph Herndon on 3/24/15.
-//
-public class NJNPVideoCaptureActivity extends Activity implements SurfaceHolder.Callback {
+/**
+ * @author Created by Joseph Herndon on 3/24/15.
+ *
+ */
+public class VideoCaptureActivity extends Activity implements SurfaceHolder.Callback {
 
     // Static Variables
     private static final String NJNP_VIDEO_CAPTURE_ACTIVITY_TAG = "Video Capture";
@@ -41,15 +40,14 @@ public class NJNPVideoCaptureActivity extends Activity implements SurfaceHolder.
 
         surfaceView = (SurfaceView) findViewById(R.id.CameraView);
         surfaceViewHolder = surfaceView.getHolder();
-        surfaceViewHolder.addCallback(NJNPVideoCaptureActivity.this);
+        surfaceViewHolder.addCallback(VideoCaptureActivity.this);
 
         // Setup surface view
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         Intent intent = getIntent();
         videoDuration = intent.getIntExtra(NJNPConstants.VIDEO_DURATION_EXTRA, 1);
-        convertMinToMilliSec();
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
@@ -62,11 +60,12 @@ public class NJNPVideoCaptureActivity extends Activity implements SurfaceHolder.
             Log.e(NJNP_VIDEO_CAPTURE_ACTIVITY_TAG, "Error on surface created, error: " + e.getMessage());
         }
 
-        videoCaptureIntent = new Intent(NJNPVideoCaptureActivity.this, VideoRecorderService.class);
+        videoCaptureIntent = new Intent(VideoCaptureActivity.this, VideoRecorderService.class);
         videoCaptureIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        videoCaptureIntent.putExtra(NJNPConstants.VIDEO_DURATION_EXTRA, videoDuration);
         startService(videoCaptureIntent);
 
+        convertMinToMilliSec();
+        Log.i(NJNP_VIDEO_CAPTURE_ACTIVITY_TAG, "Video Duration set for " + this.videoDuration);
         Thread thread = new Thread() {
             @Override
             public void run() {

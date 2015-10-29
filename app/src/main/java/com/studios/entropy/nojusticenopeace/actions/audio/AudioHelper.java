@@ -1,6 +1,8 @@
-package com.studios.entropy.nojusticenopeace.helpers;
+package com.studios.entropy.nojusticenopeace.actions.audio;
 
 import android.media.MediaRecorder;
+
+import com.studios.entropy.nojusticenopeace.models.NJNPConstants;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;

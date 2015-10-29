@@ -1,4 +1,4 @@
-package com.studios.entropy.nojusticenopeace.helpers;
+package com.studios.entropy.nojusticenopeace.actions.video;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -17,7 +17,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.studios.entropy.nojusticenopeace.NJNPVideoCaptureActivity;
+import com.studios.entropy.nojusticenopeace.models.NJNPConstants;
 
 public class VideoRecorderService extends Service {
 
@@ -34,9 +34,9 @@ public class VideoRecorderService extends Service {
         super.onCreate();
 
         mRecordingStatus = false;
-        mSurfaceView = NJNPVideoCaptureActivity.surfaceView;
-        mServiceCamera = NJNPVideoCaptureActivity.mCamera;
-        mSurfaceHolder = NJNPVideoCaptureActivity.surfaceViewHolder;
+        mSurfaceView = VideoCaptureActivity.surfaceView;
+        mServiceCamera = VideoCaptureActivity.mCamera;
+        mSurfaceHolder = VideoCaptureActivity.surfaceViewHolder;
     }
 
     @Override
@@ -62,6 +62,7 @@ public class VideoRecorderService extends Service {
             Camera.Parameters params = mServiceCamera.getParameters();
             mServiceCamera.setParameters(params);
             Camera.Parameters p = mServiceCamera.getParameters();
+//            mServiceCamera.setDisplayOrientation(90);
 
             final List<Size> listSize = p.getSupportedPreviewSizes();
             Size mPreviewSize = listSize.get(2);
@@ -88,14 +89,18 @@ public class VideoRecorderService extends Service {
             mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
             mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
             mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-            mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-            mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
+            mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+            mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.DEFAULT);
 
             SimpleDateFormat sdf = new SimpleDateFormat(NJNPConstants.DATE_FORMAT, Locale.US);
             mMediaRecorder.setOutputFile(NJNPConstants.DIRECTORY_PATH + NJNPConstants.VIDEO_FOLDER + NJNPConstants.VIDEO_FILE_NAME + sdf.format(new Date()) + ".mp4");
 
-            mMediaRecorder.setVideoFrameRate(60);
+//            CamcorderProfile cpHigh = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH);
+//            mMediaRecorder.setProfile(cpHigh);
+
             mMediaRecorder.setVideoSize(mPreviewSize.width, mPreviewSize.height);
+            mMediaRecorder.setVideoFrameRate(60);
+            mMediaRecorder.setVideoEncodingBitRate(3000000);
             mMediaRecorder.setPreviewDisplay(mSurfaceHolder.getSurface());
 
             mMediaRecorder.prepare();
@@ -106,11 +111,11 @@ public class VideoRecorderService extends Service {
 
             return true;
         } catch (IllegalStateException e) {
-            Log.d(NJNP_VIDEO_RECORDER_SERVICE_TAG, e.getMessage());
+            Log.d(NJNP_VIDEO_RECORDER_SERVICE_TAG, "Illegal State Exception with message: " + e.getMessage());
             e.printStackTrace();
             return false;
         } catch (IOException e) {
-            Log.d(NJNP_VIDEO_RECORDER_SERVICE_TAG, e.getMessage());
+            Log.d(NJNP_VIDEO_RECORDER_SERVICE_TAG, "IO Exception with message: " + e.getMessage());
             e.printStackTrace();
             return false;
         }

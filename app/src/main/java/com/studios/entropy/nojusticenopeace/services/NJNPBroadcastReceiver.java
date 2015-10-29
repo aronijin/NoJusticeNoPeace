@@ -1,4 +1,4 @@
-package com.studios.entropy.nojusticenopeace;
+package com.studios.entropy.nojusticenopeace.services;
 
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -7,14 +7,16 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.studios.entropy.nojusticenopeace.helpers.NJNPConstants;
+import com.studios.entropy.nojusticenopeace.notification.NJNPNotificationBuilder;
+import com.studios.entropy.nojusticenopeace.models.NJNPConstants;
 
 /**
- * Created by Nathan Heard on 4/5/2015.
+ * @author Nathan Heard on 4/5/2015.
  */
 public class NJNPBroadcastReceiver extends BroadcastReceiver {
 
     private static final String NJNP_BROADCAST_RECEIVER_TAG = "NJNPBroadcastReceiver";
+
     private static Context applicationContext;
     private static boolean audioActionStatus;
     private static boolean videoActionStatus;
@@ -28,9 +30,15 @@ public class NJNPBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         this.applicationContext = context;
-        deteremineBroadcastAction(intent);
-        Log.i(NJNP_BROADCAST_RECEIVER_TAG, "Received: " + intent.getAction());
+        determineBroadcastAction(intent);
         isLastAction();
+    }
+
+    private void isLastAction() {
+        if (isAudioActionStatus() && isVideoActionStatus() && isEmailActionStatus() && isSmsActionStatus() && isDropboxActionStatus() && isFrontCameraActionStatus() && isLocalActionStatus()) {
+            rebitrhNotification();
+            Log.i(NJNP_BROADCAST_RECEIVER_TAG, "Notification reborn!");
+        }
     }
 
     public void rebitrhNotification() {
@@ -50,14 +58,9 @@ public class NJNPBroadcastReceiver extends BroadcastReceiver {
         setLocalActionStatus(false);
     }
 
-    private void isLastAction() {
-        if (isAudioActionStatus() && isVideoActionStatus() && isEmailActionStatus() && isSmsActionStatus() && isDropboxActionStatus() && isFrontCameraActionStatus() && isLocalActionStatus()) {
-            rebitrhNotification();
-            Log.i(NJNP_BROADCAST_RECEIVER_TAG, "Notification reborn!");
-        }
-    }
+    private void determineBroadcastAction(Intent intent) {
+        Log.i(NJNP_BROADCAST_RECEIVER_TAG, "Received: " + intent.getAction());
 
-    private void deteremineBroadcastAction(Intent intent) {
         if (intent.getAction().equals(NJNPConstants.ACTION_AUDIO)) {
             setAudioActionStatus(true);
         }
@@ -136,5 +139,4 @@ public class NJNPBroadcastReceiver extends BroadcastReceiver {
     public static void setLocalActionStatus(boolean localActionStatus) {
         NJNPBroadcastReceiver.localActionStatus = localActionStatus;
     }
-
 }

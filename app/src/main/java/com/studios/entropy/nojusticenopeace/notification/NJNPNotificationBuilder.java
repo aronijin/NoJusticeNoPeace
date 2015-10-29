@@ -1,10 +1,13 @@
-package com.studios.entropy.nojusticenopeace;
+package com.studios.entropy.nojusticenopeace.notification;
 
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
+import com.studios.entropy.nojusticenopeace.R;
+import com.studios.entropy.nojusticenopeace.services.NJNPBackgroundService;
 
 /**
  *

@@ -1,10 +1,8 @@
 package com.studios.entropy.nojusticenopeace;
 
 import android.app.NotificationManager;
-import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,8 +16,9 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.ToggleButton;
 
-import com.studios.entropy.nojusticenopeace.helpers.NJNPConstants;
+import com.studios.entropy.nojusticenopeace.models.NJNPConstants;
 import com.studios.entropy.nojusticenopeace.models.SettingsModel;
+import com.studios.entropy.nojusticenopeace.notification.NJNPNotificationBuilder;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,17 +37,16 @@ import java.io.StreamCorruptedException;
  * @authior Nathanial Heard, Joseph Herndon
  *
  */
-public class NJNPActivity extends ActionBarActivity {
+public class NJNPStartActivity extends ActionBarActivity {
 
     private static final String NJNP_ACTIVITY_TAG = "NJNPActivity";
+    private static IntentFilter filter;
 
     private static Switch audioToggleBtn;
     private static Switch videoToggleBtn;
-    private static CheckBox frontCameraCheckboxBtn;
     private static Switch smsToggleBtn;
     private static Switch emailToggleBtn;
     private static Switch dropboxToggleBtn;
-    private static Switch keepOnDeviceToggleBtn;
     private static ToggleButton startToggleBtn;
 
     private static EditText audioEditText;
@@ -63,20 +61,16 @@ public class NJNPActivity extends ActionBarActivity {
         // Grab UI components and attach action listeners
         audioToggleBtn = (Switch) this.findViewById(R.id.audio_toggle_btn);
         videoToggleBtn = (Switch) this.findViewById(R.id.video_toggle_btn);
-        frontCameraCheckboxBtn = (CheckBox) this.findViewById(R.id.front_camera_checkbox_btn);
         smsToggleBtn = (Switch) this.findViewById(R.id.sms_toggle_btn);
         emailToggleBtn = (Switch) this.findViewById(R.id.email_toggle_btn);
         dropboxToggleBtn = (Switch) this.findViewById(R.id.dropbox_toggle_btn);
-        keepOnDeviceToggleBtn = (Switch) this.findViewById(R.id.keep_on_device_toggle_btn);
         startToggleBtn = (ToggleButton) this.findViewById(R.id.start_toggle_btn);
 
         audioToggleBtn.setOnCheckedChangeListener(onAudioToggle);
         videoToggleBtn.setOnCheckedChangeListener(onVideoToggle);
-        frontCameraCheckboxBtn.setOnCheckedChangeListener(onFrontCameraCheckbox);
         smsToggleBtn.setOnCheckedChangeListener(onSMSToggle);
         emailToggleBtn.setOnCheckedChangeListener(onEmailToggle);
         dropboxToggleBtn.setOnCheckedChangeListener(onDropboxToggle);
-        keepOnDeviceToggleBtn.setOnCheckedChangeListener(onKeepOnDeviceToggle);
         startToggleBtn.setOnCheckedChangeListener(onStartToggle);
 
         audioEditText = (EditText) this.findViewById(R.id.audio_edit_text);
@@ -85,7 +79,7 @@ public class NJNPActivity extends ActionBarActivity {
         audioEditText.addTextChangedListener(audioTextWatcher);
         videoEditText.addTextChangedListener(videoTextWatcher);
 
-        if(areSettingsPresent()) {
+        if (areSettingsPresent()) {
             Log.i(NJNP_ACTIVITY_TAG, "Loading previous settings...");
             loadSettings();
         } else {
@@ -94,6 +88,7 @@ public class NJNPActivity extends ActionBarActivity {
             File NJNPDirectory = new File(NJNPConstants.DIRECTORY_PATH);
             NJNPDirectory.mkdirs();
         }
+
     }
 
     private void loadSettings() {
@@ -108,11 +103,9 @@ public class NJNPActivity extends ActionBarActivity {
             //Update UI components
             audioToggleBtn.setChecked(settingsModel.isAudioState());
             videoToggleBtn.setChecked(settingsModel.isVideoState());
-            frontCameraCheckboxBtn.setChecked(settingsModel.isFrontCameraState());
             smsToggleBtn.setChecked(settingsModel.isSmsState());
             emailToggleBtn.setChecked(settingsModel.isEmailState());
             dropboxToggleBtn.setChecked(settingsModel.isDropboxState());
-            keepOnDeviceToggleBtn.setChecked(settingsModel.isLocalState());
 
             audioEditText.setText(settingsModel.getAudioDuration() + "");
             videoEditText.setText(settingsModel.getVideoDuration() + "");
@@ -133,7 +126,7 @@ public class NJNPActivity extends ActionBarActivity {
     private void saveSettings() {
         //Save state of settings to settings object
         SettingsModel settingsModel = new SettingsModel();
-        settingsModel.saveState(NJNPActivity.this);
+        settingsModel.saveState(NJNPStartActivity.this);
 
         File NJNPSettingsDirectory = new File(NJNPConstants.DIRECTORY_PATH + NJNPConstants.SETTINGS_FOLDER);
         NJNPSettingsDirectory.mkdirs();
@@ -239,7 +232,6 @@ public class NJNPActivity extends ActionBarActivity {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             NJNPNotificationBuilder.setAudioStatus(isChecked);
-
             saveSettings();
         }
     };
@@ -248,26 +240,14 @@ public class NJNPActivity extends ActionBarActivity {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             NJNPNotificationBuilder.setVideoStatus(isChecked);
-
             saveSettings();
         }
     };
-
-    CompoundButton.OnCheckedChangeListener onFrontCameraCheckbox = new CompoundButton.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            NJNPNotificationBuilder.setFrontCameraStatus(isChecked);
-
-            saveSettings();
-        }
-    };
-
 
     CompoundButton.OnCheckedChangeListener onSMSToggle = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             NJNPNotificationBuilder.setSmsStatus(isChecked);
-
             saveSettings();
         }
     };
@@ -276,7 +256,6 @@ public class NJNPActivity extends ActionBarActivity {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             NJNPNotificationBuilder.setEmailStatus(isChecked);
-
             saveSettings();
         }
     };
@@ -285,7 +264,6 @@ public class NJNPActivity extends ActionBarActivity {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             NJNPNotificationBuilder.setDropboxStatus(isChecked);
-
             saveSettings();
         }
     };
@@ -294,7 +272,6 @@ public class NJNPActivity extends ActionBarActivity {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             NJNPNotificationBuilder.setLocalStatus(isChecked);
-
             saveSettings();
         }
     };
@@ -302,29 +279,64 @@ public class NJNPActivity extends ActionBarActivity {
     CompoundButton.OnCheckedChangeListener onStartToggle = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            NotificationManager mNotifyMgr = (NotificationManager) NJNPActivity.this.getSystemService(NOTIFICATION_SERVICE);
+            NotificationManager mNotifyMgr = (NotificationManager) NJNPStartActivity.this.getSystemService(NOTIFICATION_SERVICE);
 
+            Log.i(NJNP_ACTIVITY_TAG, "Is Checked: " + isChecked);
             if (isChecked) {
 
                 // Register Broadcast Receiver
-                IntentFilter filter = new IntentFilter();
+                filter = new IntentFilter();
                 filter.addAction(NJNPConstants.ACTION_AUDIO);
                 filter.addAction(NJNPConstants.ACTION_VIDEO);
                 filter.addAction(NJNPConstants.ACTION_EMAIL);
                 filter.addAction(NJNPConstants.ACTION_SMS);
                 filter.addAction(NJNPConstants.ACTION_DROPBOX);
-                filter.addAction(NJNPConstants.ACTION_FRONTCAMERA);
                 filter.addAction(NJNPConstants.ACTION_LOCAL);
-                registerReceiver(NJNPConstants.NJNPBroadcastReceiver, filter);
+
+                addShortcut();
+
+                // TODO Leaking intent receiver somehow after completion.  Check when it tries to register the receiver!
+                //registerReceiver(NJNPConstants.NJNPBroadcastReceiver, filter);
 
                 // Create Notification
-                NotificationCompat.Builder mBuilder = NJNPNotificationBuilder.buildNotification(NJNPActivity.this);
-                mNotifyMgr.notify(NJNPConstants.mNotificationId, mBuilder.build());
+                //TODO instead of creating notification create service intent, create activity, and then create notification behind the scenes... only question is how to stop.
+//                NotificationCompat.Builder mBuilder = NJNPNotificationBuilder.buildNotification(NJNPStartActivity.this);
+//                mNotifyMgr.notify(NJNPConstants.mNotificationId, mBuilder.build());
             } else {
-                mNotifyMgr.cancel(NJNPConstants.mNotificationId);
-                unregisterReceiver(NJNPConstants.NJNPBroadcastReceiver);
+                removeShortcut();
+//                mNotifyMgr.cancel(NJNPConstants.mNotificationId);
+//                unregisterReceiver(NJNPConstants.NJNPBroadcastReceiver);
+//                filter = null;
             }
         }
     };
 
+    private void removeShortcut() {
+        Intent createdShortcutActivity = new Intent(getApplicationContext(), NJNPActionStartActivity.class);
+        createdShortcutActivity.setAction(Intent.ACTION_MAIN);
+
+        Intent addIntent = new Intent();
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, createdShortcutActivity);
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, NJNPConstants.SHORTCUT_NAME);
+        addIntent.setAction("com.android.launcher.action.UNINSTALL_SHORTCUT");
+        getApplicationContext().sendBroadcast(addIntent);
+    }
+
+    private void addShortcut() {
+        Intent createdShortcutActivity = new Intent(getApplicationContext(), NJNPActionStartActivity.class);
+        createdShortcutActivity.putExtra("isShortcut",true);
+        createdShortcutActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        createdShortcutActivity.setAction(Intent.ACTION_MAIN);
+
+        Intent addIntent = new Intent();
+        addIntent.putExtra("duplicate", false);
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, createdShortcutActivity);
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, NJNPConstants.SHORTCUT_NAME);
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                Intent.ShortcutIconResource.fromContext(getApplicationContext(),
+                        R.drawable.abc_btn_default_mtrl_shape));
+
+        addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+        getApplicationContext().sendBroadcast(addIntent);
+    }
 }

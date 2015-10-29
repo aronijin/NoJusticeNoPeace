@@ -1,9 +1,8 @@
-package com.studios.entropy.nojusticenopeace.helpers;
+package com.studios.entropy.nojusticenopeace.models;
 
 import android.content.BroadcastReceiver;
-import android.os.Environment;
 
-import com.studios.entropy.nojusticenopeace.NJNPBroadcastReceiver;
+import com.studios.entropy.nojusticenopeace.services.NJNPBroadcastReceiver;
 
 /**
  * Created by Nathan Heard on 3/23/2015.
@@ -15,6 +14,7 @@ public class NJNPConstants {
 
     public static final BroadcastReceiver NJNPBroadcastReceiver = new NJNPBroadcastReceiver();
     public static final String DIRECTORY_PATH = "/sdcard/NoJusticeNoPeace/";
+    public static final String SHORTCUT_NAME = "NJNP-Go";
     public static final String AUDIO_FOLDER = "Audio/";
     public static final String AUDIO_FILE_NAME = "audio_file_";
     public static final String VIDEO_FOLDER = "Video/";
